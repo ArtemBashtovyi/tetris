@@ -1,5 +1,7 @@
 package sample.model.figure;
 
+import sample.ui.field.IFieldController;
+
 public class FigureZ extends BaseFigure {
 
     private int[][] baseCells;
