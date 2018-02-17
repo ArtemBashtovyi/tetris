@@ -1,54 +1,76 @@
 package sample.model.figure;
 
 
-import sample.model.cell.Cell;
-import sample.model.cell.CellMapper;
+import sample.model.coord.Coordinate;
+import sample.model.coord.CoordinateComparator;
+
+import java.util.List;
 
 public abstract class BaseFigure {
 
-    private int x;
-    private int y;
+    private static final CoordinateComparator COMPARATOR = new CoordinateComparator();
 
-    BaseFigure(int x, int y) {
-        this.x = x;
-        this.y = y;
+    enum RotationMode {
+        NORMAL,
+        ROTATED_90,
+        ROTATED_180,
+        ROTATED_270
+    }
+
+    private List<Coordinate> coordinates;
+    private Coordinate topLeftCoordinate;
+
+    BaseFigure(Coordinate topLeftCoordinate) {
+        this.topLeftCoordinate = topLeftCoordinate;
     }
 
     public void moveLeft() {
-        this.x--;
-        /*if (isCollision()) {
-            this.x++;
-        }*/
+        for (Coordinate cell : coordinates) {
+            cell.y--;
+        }
     }
 
     public void moveRight() {
-        this.x++;
-        /*if (isCollision()) {
-            this.x--;
-        }*/
+        for (Coordinate cell : coordinates) {
+            cell.y++;
+        }
     }
 
     public void moveDown() {
-        this.y++;
+        for (Coordinate cell : coordinates) {
+            cell.x++;
+        }
     }
 
-    public Cell[][] getCells() {
-        return CellMapper.getCells(getFigureCells());
-    }
 
     public void rotate() {
-        changeMatrix();
+        // change figure matrix
+        setFigureMatrix(topLeftCoordinate);
+        //set new changed figure matrix
+        coordinates = getFigureMatrix();
+        // set left top point
+        setTopLeftCoordinate();
     }
 
-    public int getX() {
-        return this.x;
+    public List<Coordinate> getCoordinates() {
+        coordinates = getFigureMatrix();
+        return coordinates;
     }
 
-    public int getY() {
-        return this.y;
+    // computation of left top coordinate figure
+    private void setTopLeftCoordinate() {
+        coordinates.sort(COMPARATOR);
+        System.out.print("All coordinates : ");
+        for (Coordinate coordinate : coordinates) {
+            System.out.print(coordinate + " ");
+        }
+
+        if (!coordinates.isEmpty()) {
+            topLeftCoordinate = coordinates.get(0);
+        }
+
     }
 
-
-    abstract void changeMatrix();
-    abstract int[][] getFigureCells();
+    abstract void setFigureMatrix(Coordinate topLeftCoordinate);
+    abstract List<Coordinate> getFigureMatrix();
 }

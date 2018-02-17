@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import sample.model.SizeConstants;
+import sample.ui.UiConstants;
 import sample.ui.field.FieldController;
 
 public class Main extends Application {
@@ -26,7 +26,7 @@ public class Main extends Application {
         Parent root = loader.load();
         // set key listener
         onKeyListener = loader.<FieldController>getController();
-        Scene scene = new Scene(root, SizeConstants.MAIN_SCREEN_WIDTH, SizeConstants.MAIN_SCREEN_HEIGHT);
+        Scene scene = new Scene(root, UiConstants.MAIN_SCREEN_WIDTH, UiConstants.MAIN_SCREEN_HEIGHT);
 
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {

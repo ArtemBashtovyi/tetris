@@ -7,13 +7,16 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 import sample.Main;
-import sample.field.CellsSaver;
-import sample.field.IFieldManager;
-import sample.field.FieldManager;
+import sample.model.field.CellsSaver;
+import sample.model.field.FieldManager;
+import sample.model.field.IFieldManager;
 import sample.model.cell.Cell;
+import sample.model.coord.Coordinate;
 import sample.model.figure.BaseFigure;
 
-import static sample.model.SizeConstants.*;
+import java.util.List;
+
+import static sample.ui.UiConstants.*;
 
 public class FieldController implements Main.OnKeyListener,IFieldController {
 
@@ -29,13 +32,13 @@ public class FieldController implements Main.OnKeyListener,IFieldController {
     @FXML
     Pane layout;
 
-    private final int middlePositionX = yCells/2-1;
+    private final int middlePosition = yCells/2;
 
     @FXML
     void initialize() {
 
-        cellsSaver = new CellsSaver();
-        fieldManager = new FieldManager(yCells,middlePositionX,this,cellsSaver);
+        cellsSaver = new CellsSaver(this);
+        fieldManager = new FieldManager(middlePosition,this,cellsSaver);
 
         layout.setMaxHeight(MAIN_SCREEN_HEIGHT);
         layout.setMaxWidth(MAIN_SCREEN_WIDTH);
@@ -47,12 +50,16 @@ public class FieldController implements Main.OnKeyListener,IFieldController {
             }
         }
 
-        for (int i = 0; i < baseMatrix[15].length;i++) {
-            baseMatrix[15][i].setColor(Cell.getFullColor());
-            cellsSaver.addCell(baseMatrix[15][i]);
+        for (int i = 0; i < baseMatrix[15].length-2;i++) {
+            baseMatrix[baseMatrix.length-1][i].setColor(Cell.getFullColor());
+            baseMatrix[baseMatrix.length-2][i].setColor(Cell.getFullColor());
+            cellsSaver.addCell(new Coordinate(baseMatrix.length-1,i));
+            cellsSaver.addCell(new Coordinate(baseMatrix.length-2,i));
         }
 
-        updateFigure(fieldManager.createFigure(middlePositionX,0));
+
+
+        updateFigure(fieldManager.createFigure(0,middlePosition));
         startTimer();
 
     }
@@ -75,20 +82,32 @@ public class FieldController implements Main.OnKeyListener,IFieldController {
 
     @Override
     public void updateFigure(@NotNull BaseFigure figure) {
-        int x = figure.getY();
-        int y = figure.getX();
 
-        Cell[][] figureCells = figure.getCells();
+        List<Coordinate> figureCells = figure.getCoordinates();
 
         cleanUpField();
 
-        for (int i = 0; i < figureCells.length;i++) {
+       /* for (int i = 0; i < figureCells.length;i++) {
             for (int j = 0; j < figureCells[i].length;j++) {
                 if (figureCells[i][j].getState() == 1) {
-                    
+                    Cell cell = figureCells[i][j];
+                    baseMatrix[cell.getX()][cell.getY()].setColor(cell.getColor());
+                    cell = null;
+                }
+            }
+        }*/
+
+        /*for (int i = 0; i < figureCells.length;i++) {
+            for (int j = 0; j < figureCells[i].length;j++) {
+                if (figureCells[i][j].getState() == 1) {
                     baseMatrix[x + i][y + j].setColor(figureCells[i][j].getColor());
                 }
             }
+        }*/
+
+
+        for(Coordinate cell : figureCells) {
+            baseMatrix[cell.x][cell.y].setColor(Cell.getFullColor());
         }
 
         updateField();
@@ -97,14 +116,18 @@ public class FieldController implements Main.OnKeyListener,IFieldController {
 
     @Override
     public void cleanUpField() {
-        for (Cell[] aBaseMatrix : baseMatrix) {
-            for (Cell anABaseMatrix : aBaseMatrix) {
+        // get saved coordinates and set to base matrix color,another Cells have empty color
+
+        for (int i = 0; i < baseMatrix.length;i++) {
+            for (int j = 0; j < baseMatrix[i].length;j++) {
 
                 // check if Cell exist in saved Cells
-                int savedCellIndex = cellsSaver.indexOf(anABaseMatrix);
-                if (savedCellIndex != -1) {
-                    anABaseMatrix.setColor(cellsSaver.getCell(savedCellIndex).getColor());
-                } else anABaseMatrix.setColor(Cell.getEmptyColor());
+
+                if (cellsSaver.isExist(new Coordinate(i,j))) {
+                    baseMatrix[i][j].setColor(Cell.getFullColor());
+                } else baseMatrix[i][j].setColor(Cell.getEmptyColor());
+
+
             }
         }
     }
@@ -116,7 +139,7 @@ public class FieldController implements Main.OnKeyListener,IFieldController {
 
     @Override
     public void setNewFigure() {
-        fieldManager.createFigure(middlePositionX,0);
+        fieldManager.createFigure(0,middlePosition);
     }
 
     @Override

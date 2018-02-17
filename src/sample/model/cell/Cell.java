@@ -2,24 +2,18 @@ package sample.model.cell;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.jetbrains.annotations.Contract;
-import sample.model.SizeConstants;
+import sample.ui.UiConstants;
 
 import java.util.Objects;
 
-import static sample.model.SizeConstants.CELL_HEIGHT;
-import static sample.model.SizeConstants.CELL_WIDTH;
+import static sample.ui.UiConstants.*;
 
 
 public class Cell extends StackPane {
-
-    private static final Color EMPTY_COLOR =  new Color(0.1294, 0.5216, 0.5333, 0.8);
-    private static final Color FULL_COLOR =  new Color(0.9294, 0.1216, 0.5333, 0.8);
-
 
     private int state = 0;
     private int x;
@@ -35,8 +29,8 @@ public class Cell extends StackPane {
         this.x = x;
         this.y = y;
         // set positions which depends from
-        int positionX = x * SizeConstants.CELL_WIDTH;
-        int positionY = y * SizeConstants.CELL_HEIGHT;
+        int positionX = x * UiConstants.CELL_WIDTH;
+        int positionY = y * UiConstants.CELL_HEIGHT;
 
         // reversed because setTranslate method set X and Y by coordinates
         setTranslateX(positionY);
@@ -79,8 +73,6 @@ public class Cell extends StackPane {
     }
 
     public void update() {
-
-
         updateProperty.setValue(false);
         rectangle.visibleProperty().bind(updateProperty);
         updateProperty.setValue(true);
@@ -91,20 +83,15 @@ public class Cell extends StackPane {
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
     public int getY() {
         return y;
     }
 
-    public void setY(int y) {
-        this.y = y;
-    }
 
-    public int getState() {
-        return state;
+    // FIXME : Change to Colored boolean value (if colored than 1,else 0)
+
+    public boolean isFilled() {
+        return currentColor.equals(FULL_COLOR);
     }
 
     @Override
@@ -118,7 +105,6 @@ public class Cell extends StackPane {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(x, y);
     }
 }

@@ -1,6 +1,5 @@
-package sample.field;
+package sample.model.field;
 
-import sample.model.cell.Cell;
 import sample.model.figure.BaseFigure;
 
 public interface IFieldManager {
