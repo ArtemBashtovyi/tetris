@@ -43,6 +43,7 @@ public class FieldController implements Main.OnKeyListener,IFieldController {
         layout.setMaxHeight(MAIN_SCREEN_HEIGHT);
         layout.setMaxWidth(MAIN_SCREEN_WIDTH);
 
+        System.out.println("Matrix[" + (xCells-1) + "," + (yCells-1) +"]");
         for (int i = 0; i < baseMatrix.length;i++) {
             for (int j = 0; j < baseMatrix[i].length;j++) {
                 baseMatrix[i][j] = new Cell(i, j);
@@ -57,8 +58,10 @@ public class FieldController implements Main.OnKeyListener,IFieldController {
             cellsSaver.addCell(new Coordinate(baseMatrix.length-2,i));
         }
 
-
-
+        for (int i = 0; i < baseMatrix[15].length-3;i++) {
+            baseMatrix[baseMatrix.length-3][i].setColor(Cell.getFullColor());
+            cellsSaver.addCell(new Coordinate(baseMatrix.length-3,i));
+        }
         updateFigure(fieldManager.createFigure(0,middlePosition));
         startTimer();
 
@@ -66,7 +69,7 @@ public class FieldController implements Main.OnKeyListener,IFieldController {
 
     private void startTimer() {
          timer = new Timeline(
-                new KeyFrame(Duration.seconds(0.90),
+                new KeyFrame(Duration.seconds(0.60),
                 event -> onTimerTick()));
 
         timer.setCycleCount(Timeline.INDEFINITE);

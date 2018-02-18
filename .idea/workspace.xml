@@ -2,33 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/sample/model/ComputingThread.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/sample/model/coord/Coordinate.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/sample/model/coord/CoordinateComparator.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/sample/model/field/CellsSaver.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/sample/model/field/FieldManager.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/sample/model/figure/FigureT.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/sample/ui/UiConstants.java" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/out/production/S/sample/Main.class" afterPath="$PROJECT_DIR$/out/production/S/sample/Main.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/S/sample/field/CellsSaver.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/S/sample/field/FieldManager.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/S/sample/field/IFieldManager.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/S/sample/model/SizeConstants.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/S/sample/model/cell/Cell.class" afterPath="$PROJECT_DIR$/out/production/S/sample/model/cell/Cell.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/S/sample/model/cell/CellMapper.class" afterPath="$PROJECT_DIR$/out/production/S/sample/model/cell/CellMapper.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/S/sample/model/figure/BaseFigure.class" afterPath="$PROJECT_DIR$/out/production/S/sample/model/figure/BaseFigure.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/S/sample/model/figure/FigureZ.class" afterPath="" />
       <change beforePath="$PROJECT_DIR$/out/production/S/sample/ui/field/FieldController.class" afterPath="$PROJECT_DIR$/out/production/S/sample/ui/field/FieldController.class" />
-      <change beforePath="$PROJECT_DIR$/src/sample/Main.java" afterPath="$PROJECT_DIR$/src/sample/Main.java" />
-      <change beforePath="$PROJECT_DIR$/src/sample/field/CellsSaver.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/sample/field/FieldManager.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/sample/field/IFieldManager.java" afterPath="$PROJECT_DIR$/src/sample/model/field/IFieldManager.java" />
-      <change beforePath="$PROJECT_DIR$/src/sample/model/SizeConstants.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/sample/model/cell/Cell.java" afterPath="$PROJECT_DIR$/src/sample/model/cell/Cell.java" />
-      <change beforePath="$PROJECT_DIR$/src/sample/model/cell/CellMapper.java" afterPath="$PROJECT_DIR$/src/sample/model/cell/CellMapper.java" />
-      <change beforePath="$PROJECT_DIR$/src/sample/model/figure/BaseFigure.java" afterPath="$PROJECT_DIR$/src/sample/model/figure/BaseFigure.java" />
-      <change beforePath="$PROJECT_DIR$/src/sample/model/figure/FigureZ.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/sample/model/field/FieldManager.java" afterPath="$PROJECT_DIR$/src/sample/model/field/FieldManager.java" />
       <change beforePath="$PROJECT_DIR$/src/sample/ui/field/FieldController.java" afterPath="$PROJECT_DIR$/src/sample/ui/field/FieldController.java" />
     </list>
     <ignored path="JavaFxApplication.iws" />
@@ -90,8 +66,8 @@
       <file leaf-file-name="BaseFigure.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/model/figure/BaseFigure.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="38" column="21" lean-forward="false" selection-start-line="38" selection-start-column="21" selection-end-line="38" selection-end-column="21" />
+            <state relative-caret-position="255">
+              <caret line="51" column="31" lean-forward="true" selection-start-line="51" selection-start-column="31" selection-end-line="51" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#504#505#0" expanded="true" />
@@ -104,14 +80,10 @@
       <file leaf-file-name="FieldManager.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/sample/model/field/FieldManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="256">
-              <caret line="133" column="69" lean-forward="true" selection-start-line="133" selection-start-column="69" selection-end-line="133" selection-end-column="69" />
+            <state relative-caret-position="176">
+              <caret line="255" column="0" lean-forward="true" selection-start-line="255" selection-start-column="0" selection-end-line="255" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#5162#5163#0" expanded="true" />
-                <element signature="e#5189#5190#0" expanded="true" />
-                <element signature="e#5229#5230#0" expanded="true" />
-                <element signature="e#5256#5257#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -161,27 +133,37 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="FigureT.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sample/model/figure/FigureT.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="493">
+              <caret line="34" column="29" lean-forward="true" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="FieldController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/ui/field/FieldController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-793">
-              <caret line="59" column="0" lean-forward="false" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
+            <state relative-caret-position="153">
+              <caret line="45" column="59" lean-forward="false" selection-start-line="45" selection-start-column="59" selection-end-line="45" selection-end-column="59" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2247#2248#0" expanded="true" />
-                <element signature="e#2292#2293#0" expanded="true" />
-                <element signature="e#3905#3906#0" expanded="true" />
-                <element signature="e#3938#3939#0" expanded="true" />
-                <element signature="e#3986#3987#0" expanded="true" />
-                <element signature="e#4045#4046#0" expanded="true" />
-                <element signature="e#4320#4321#0" expanded="true" />
-                <element signature="e#4357#4358#0" expanded="true" />
-                <element signature="e#4399#4400#0" expanded="true" />
-                <element signature="e#4444#4445#0" expanded="true" />
-                <element signature="e#4487#4488#0" expanded="true" />
-                <element signature="e#4533#4534#0" expanded="true" />
-                <element signature="e#4575#4576#0" expanded="true" />
-                <element signature="e#4620#4621#0" expanded="true" />
+                <element signature="e#2539#2540#0" expanded="true" />
+                <element signature="e#2584#2585#0" expanded="true" />
+                <element signature="e#4197#4198#0" expanded="true" />
+                <element signature="e#4230#4231#0" expanded="true" />
+                <element signature="e#4278#4279#0" expanded="true" />
+                <element signature="e#4337#4338#0" expanded="true" />
+                <element signature="e#4612#4613#0" expanded="true" />
+                <element signature="e#4649#4650#0" expanded="true" />
+                <element signature="e#4691#4692#0" expanded="true" />
+                <element signature="e#4736#4737#0" expanded="true" />
+                <element signature="e#4779#4780#0" expanded="true" />
+                <element signature="e#4825#4826#0" expanded="true" />
+                <element signature="e#4867#4868#0" expanded="true" />
+                <element signature="e#4912#4913#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -251,9 +233,9 @@
         <option value="$PROJECT_DIR$/src/sample/model/figure/BaseFigure.java" />
         <option value="$PROJECT_DIR$/src/sample/model/ComputingThread.java" />
         <option value="$PROJECT_DIR$/src/sample/model/coord/Coordinate.java" />
-        <option value="$PROJECT_DIR$/src/sample/ui/field/FieldController.java" />
         <option value="$PROJECT_DIR$/src/sample/model/figure/FigureT.java" />
         <option value="$PROJECT_DIR$/src/sample/model/field/CellsSaver.java" />
+        <option value="$PROJECT_DIR$/src/sample/ui/field/FieldController.java" />
         <option value="$PROJECT_DIR$/src/sample/model/field/FieldManager.java" />
       </list>
     </option>
@@ -552,7 +534,7 @@
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32890365" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6578073" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.46345514" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32890365" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20454545" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
@@ -609,6 +591,8 @@
   <component name="VcsManagerConfiguration">
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
+    <MESSAGE value="Version 0.0.4" />
+    <option name="LAST_COMMIT_MESSAGE" value="Version 0.0.4" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -688,20 +672,20 @@
           <caret line="31" column="9" lean-forward="true" selection-start-line="31" selection-start-column="9" selection-end-line="31" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2247#2248#0" expanded="true" />
-            <element signature="e#2292#2293#0" expanded="true" />
-            <element signature="e#3905#3906#0" expanded="true" />
-            <element signature="e#3938#3939#0" expanded="true" />
-            <element signature="e#3986#3987#0" expanded="true" />
-            <element signature="e#4045#4046#0" expanded="true" />
-            <element signature="e#4320#4321#0" expanded="true" />
-            <element signature="e#4357#4358#0" expanded="true" />
-            <element signature="e#4399#4400#0" expanded="true" />
-            <element signature="e#4444#4445#0" expanded="true" />
-            <element signature="e#4487#4488#0" expanded="true" />
-            <element signature="e#4533#4534#0" expanded="true" />
-            <element signature="e#4575#4576#0" expanded="true" />
-            <element signature="e#4620#4621#0" expanded="true" />
+            <element signature="e#2539#2540#0" expanded="true" />
+            <element signature="e#2584#2585#0" expanded="true" />
+            <element signature="e#4197#4198#0" expanded="true" />
+            <element signature="e#4230#4231#0" expanded="true" />
+            <element signature="e#4278#4279#0" expanded="true" />
+            <element signature="e#4337#4338#0" expanded="true" />
+            <element signature="e#4612#4613#0" expanded="true" />
+            <element signature="e#4649#4650#0" expanded="true" />
+            <element signature="e#4691#4692#0" expanded="true" />
+            <element signature="e#4736#4737#0" expanded="true" />
+            <element signature="e#4779#4780#0" expanded="true" />
+            <element signature="e#4825#4826#0" expanded="true" />
+            <element signature="e#4867#4868#0" expanded="true" />
+            <element signature="e#4912#4913#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -753,20 +737,20 @@
           <caret line="40" column="33" lean-forward="false" selection-start-line="40" selection-start-column="33" selection-end-line="40" selection-end-column="33" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2247#2248#0" expanded="true" />
-            <element signature="e#2292#2293#0" expanded="true" />
-            <element signature="e#3905#3906#0" expanded="true" />
-            <element signature="e#3938#3939#0" expanded="true" />
-            <element signature="e#3986#3987#0" expanded="true" />
-            <element signature="e#4045#4046#0" expanded="true" />
-            <element signature="e#4320#4321#0" expanded="true" />
-            <element signature="e#4357#4358#0" expanded="true" />
-            <element signature="e#4399#4400#0" expanded="true" />
-            <element signature="e#4444#4445#0" expanded="true" />
-            <element signature="e#4487#4488#0" expanded="true" />
-            <element signature="e#4533#4534#0" expanded="true" />
-            <element signature="e#4575#4576#0" expanded="true" />
-            <element signature="e#4620#4621#0" expanded="true" />
+            <element signature="e#2539#2540#0" expanded="true" />
+            <element signature="e#2584#2585#0" expanded="true" />
+            <element signature="e#4197#4198#0" expanded="true" />
+            <element signature="e#4230#4231#0" expanded="true" />
+            <element signature="e#4278#4279#0" expanded="true" />
+            <element signature="e#4337#4338#0" expanded="true" />
+            <element signature="e#4612#4613#0" expanded="true" />
+            <element signature="e#4649#4650#0" expanded="true" />
+            <element signature="e#4691#4692#0" expanded="true" />
+            <element signature="e#4736#4737#0" expanded="true" />
+            <element signature="e#4779#4780#0" expanded="true" />
+            <element signature="e#4825#4826#0" expanded="true" />
+            <element signature="e#4867#4868#0" expanded="true" />
+            <element signature="e#4912#4913#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -777,10 +761,6 @@
           <caret line="27" column="44" lean-forward="false" selection-start-line="27" selection-start-column="44" selection-end-line="27" selection-end-column="44" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#5162#5163#0" expanded="true" />
-            <element signature="e#5189#5190#0" expanded="true" />
-            <element signature="e#5229#5230#0" expanded="true" />
-            <element signature="e#5256#5257#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -810,10 +790,6 @@
           <caret line="96" column="0" lean-forward="false" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#5162#5163#0" expanded="true" />
-            <element signature="e#5189#5190#0" expanded="true" />
-            <element signature="e#5229#5230#0" expanded="true" />
-            <element signature="e#5256#5257#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -851,20 +827,20 @@
           <caret line="108" column="69" lean-forward="true" selection-start-line="108" selection-start-column="69" selection-end-line="108" selection-end-column="69" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2247#2248#0" expanded="true" />
-            <element signature="e#2292#2293#0" expanded="true" />
-            <element signature="e#3905#3906#0" expanded="true" />
-            <element signature="e#3938#3939#0" expanded="true" />
-            <element signature="e#3986#3987#0" expanded="true" />
-            <element signature="e#4045#4046#0" expanded="true" />
-            <element signature="e#4320#4321#0" expanded="true" />
-            <element signature="e#4357#4358#0" expanded="true" />
-            <element signature="e#4399#4400#0" expanded="true" />
-            <element signature="e#4444#4445#0" expanded="true" />
-            <element signature="e#4487#4488#0" expanded="true" />
-            <element signature="e#4533#4534#0" expanded="true" />
-            <element signature="e#4575#4576#0" expanded="true" />
-            <element signature="e#4620#4621#0" expanded="true" />
+            <element signature="e#2539#2540#0" expanded="true" />
+            <element signature="e#2584#2585#0" expanded="true" />
+            <element signature="e#4197#4198#0" expanded="true" />
+            <element signature="e#4230#4231#0" expanded="true" />
+            <element signature="e#4278#4279#0" expanded="true" />
+            <element signature="e#4337#4338#0" expanded="true" />
+            <element signature="e#4612#4613#0" expanded="true" />
+            <element signature="e#4649#4650#0" expanded="true" />
+            <element signature="e#4691#4692#0" expanded="true" />
+            <element signature="e#4736#4737#0" expanded="true" />
+            <element signature="e#4779#4780#0" expanded="true" />
+            <element signature="e#4825#4826#0" expanded="true" />
+            <element signature="e#4867#4868#0" expanded="true" />
+            <element signature="e#4912#4913#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1032,38 +1008,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/model/ComputingThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="5" lean-forward="true" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/model/figure/BaseFigure.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="38" column="21" lean-forward="false" selection-start-line="38" selection-start-column="21" selection-end-line="38" selection-end-column="21" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#504#505#0" expanded="true" />
-            <element signature="e#562#563#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///usr/java/jdk1.8.0_161/src.zip!/java/io/PrintStream.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="191">
           <caret line="803" column="19" lean-forward="false" selection-start-line="803" selection-start-column="19" selection-end-line="803" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/model/figure/FigureT.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-181">
-          <caret line="34" column="29" lean-forward="true" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
           <folding />
         </state>
       </provider>
@@ -1078,30 +1026,6 @@
             <element signature="e#728#729#0" expanded="true" />
             <element signature="e#752#753#0" expanded="true" />
             <element signature="e#801#802#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/ui/field/FieldController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-793">
-          <caret line="59" column="0" lean-forward="false" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2247#2248#0" expanded="true" />
-            <element signature="e#2292#2293#0" expanded="true" />
-            <element signature="e#3905#3906#0" expanded="true" />
-            <element signature="e#3938#3939#0" expanded="true" />
-            <element signature="e#3986#3987#0" expanded="true" />
-            <element signature="e#4045#4046#0" expanded="true" />
-            <element signature="e#4320#4321#0" expanded="true" />
-            <element signature="e#4357#4358#0" expanded="true" />
-            <element signature="e#4399#4400#0" expanded="true" />
-            <element signature="e#4444#4445#0" expanded="true" />
-            <element signature="e#4487#4488#0" expanded="true" />
-            <element signature="e#4533#4534#0" expanded="true" />
-            <element signature="e#4575#4576#0" expanded="true" />
-            <element signature="e#4620#4621#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1122,16 +1046,64 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/model/field/FieldManager.java">
+    <entry file="file://$PROJECT_DIR$/src/sample/model/ComputingThread.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="133" column="69" lean-forward="true" selection-start-line="133" selection-start-column="69" selection-end-line="133" selection-end-column="69" />
+        <state relative-caret-position="119">
+          <caret line="7" column="5" lean-forward="true" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/ui/field/FieldController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="45" column="59" lean-forward="false" selection-start-line="45" selection-start-column="59" selection-end-line="45" selection-end-column="59" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#5162#5163#0" expanded="true" />
-            <element signature="e#5189#5190#0" expanded="true" />
-            <element signature="e#5229#5230#0" expanded="true" />
-            <element signature="e#5256#5257#0" expanded="true" />
+            <element signature="e#2539#2540#0" expanded="true" />
+            <element signature="e#2584#2585#0" expanded="true" />
+            <element signature="e#4197#4198#0" expanded="true" />
+            <element signature="e#4230#4231#0" expanded="true" />
+            <element signature="e#4278#4279#0" expanded="true" />
+            <element signature="e#4337#4338#0" expanded="true" />
+            <element signature="e#4612#4613#0" expanded="true" />
+            <element signature="e#4649#4650#0" expanded="true" />
+            <element signature="e#4691#4692#0" expanded="true" />
+            <element signature="e#4736#4737#0" expanded="true" />
+            <element signature="e#4779#4780#0" expanded="true" />
+            <element signature="e#4825#4826#0" expanded="true" />
+            <element signature="e#4867#4868#0" expanded="true" />
+            <element signature="e#4912#4913#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/model/figure/FigureT.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="34" column="29" lean-forward="true" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/model/figure/BaseFigure.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="51" column="31" lean-forward="true" selection-start-line="51" selection-start-column="31" selection-end-line="51" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#504#505#0" expanded="true" />
+            <element signature="e#562#563#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/model/field/FieldManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="255" column="0" lean-forward="true" selection-start-line="255" selection-start-column="0" selection-end-line="255" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

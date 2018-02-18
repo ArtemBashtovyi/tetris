@@ -30,7 +30,7 @@ public class FieldManager implements IFieldManager {
     public FieldManager(int middlePosition,IFieldController controller,CellsSaver cellsSaver) {
         this.controller = controller;
         this.middlePosition = middlePosition;
-        this.cellsSaver = cellsSaver;
+        this.cellsSaver  = cellsSaver;
     }
 
 
@@ -40,7 +40,7 @@ public class FieldManager implements IFieldManager {
             figure.moveDown();
         } else {
 
-            Cell[][] baseCells = controller.getBaseCells();
+           /* Cell[][] baseCells = controller.getBaseCells();*/
 
             boolean isNeedToShiftLinesDown = false;
 
@@ -49,10 +49,12 @@ public class FieldManager implements IFieldManager {
                 cellsSaver.addCell(coordinate);
             }
 
+            // set position which was last
             int lastRemovePosition = 0;
-            for (int i = 0; i < baseCells.length;i++) {
+            for (int i = 0; i < baseMatrix.length;i++) {
                 if (cellsSaver.isLineFilled(i)) {
                     cellsSaver.removeCellsLine(i);
+                    System.out.println("removedLine" + i);
                     lastRemovePosition = i;
                 }
             }
@@ -71,11 +73,12 @@ public class FieldManager implements IFieldManager {
                     shiftCapacity++;
                 }
 
+                System.out.println(shiftCapacity + "= shift capacity");
                 if (isNeedToShiftLinesDown && shiftCapacity != 0) {
-                    System.out.println("-----need Shift Down on lastRemovePos = "
-                            + lastRemovePosition  + " capacity= " + shiftCapacity);
                     shiftLinesDown(lastRemovePosition,shiftCapacity);
                 }
+
+                // TODO : (not here) impl callbacks when figure can't move down,and finish game
             }
 
             controller.setNewFigure();
@@ -86,18 +89,18 @@ public class FieldManager implements IFieldManager {
 
     @Override
     public void moveFigureLeft() {
-        //if (!isCollision()) {
+        if (isCanTurnLeft()) {
             figure.moveLeft();
             controller.updateFigure(figure);
-       // }
+        }
     }
 
     @Override
     public void moveFigureRight() {
-        //if (!isCollision()) {
+        if (isCanTurnRight()) {
             figure.moveRight();
             controller.updateFigure(figure);
-       // }
+        }
     }
 
     @Override
@@ -155,6 +158,9 @@ public class FieldManager implements IFieldManager {
             int x = coordinate.x;
             int y = coordinate.y;
 
+            if (x + 1 == 1) {
+                return false;
+            }
             if (x + 1 >= baseMatrix.length) {
                // System.out.println("cell.x > baseMatrix.length");
                 return false;
@@ -171,10 +177,80 @@ public class FieldManager implements IFieldManager {
     }
 
     private boolean isCanTurnLeft() {
+        List<Coordinate> filteredCoordinates = coordinates.stream()
+                .collect(Collectors.groupingBy(Coordinate::getX))
+                .values()
+                .stream()
+                .map(groupedCoordinates -> {
+                    if (groupedCoordinates.size() > 1)  {
+                        return Collections
+                                .singletonList(groupedCoordinates
+                                        .stream()
+                                        .min(Comparator.comparingInt(Coordinate::getY)).get());
+                    }
+                    return groupedCoordinates;
+                })
+                // join all collection to one collection
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
+
+        for(Coordinate coordinate : filteredCoordinates) {
+
+            int x = coordinate.x;
+            int y = coordinate.y;
+
+            if (y - 1 < 0) {
+                return false;
+            }
+
+            if (baseMatrix[x][y-1].isFilled()) {
+                //System.out.println("filled block" + coordinate);
+                return false;
+            }
+        }
+
         return true;
     }
 
     private boolean isCanTurnRight() {
+        List<Coordinate> filteredCoordinates = coordinates.stream()
+                .collect(Collectors.groupingBy(Coordinate::getX))
+                .values()
+                .stream()
+                .map(groupedCoordinates -> {
+                    if (groupedCoordinates.size() > 1)  {
+                        return Collections
+                                .singletonList(groupedCoordinates
+                                        .stream()
+                                        .max(Comparator.comparingInt(Coordinate::getY)).get());
+                    }
+                    return groupedCoordinates;
+                })
+                // join all collection to one collection
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
+
+        for(Coordinate coordinate : filteredCoordinates) {
+
+            int x = coordinate.x;
+            int y = coordinate.y;
+
+            if (y + 1 >= baseMatrix[0].length) {
+                return false;
+            }
+
+            if (baseMatrix[x][y+1].isFilled()) {
+                //System.out.println("filled block" + coordinate);
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean isCanRotate() {
+        List<Coordinate> tempCoordinates = coordinates;
+
         return true;
     }
 
@@ -183,8 +259,10 @@ public class FieldManager implements IFieldManager {
         // filter all positions cell above  empty line and move they to down
         List<Coordinate> coordinates = cellsSaver.getCoordinates()
                 .stream()
-                .filter(coordinate -> coordinate.getX() < startLine)
-                .peek(coordinate -> coordinate.x = coordinate.getX() + capacity)
+                .peek(coordinate -> {
+                    if (coordinate.getX() < startLine)
+                    coordinate.x = coordinate.getX() + capacity;
+                })
                 .collect(Collectors.toList());
 
         cellsSaver.setCoordinates(coordinates);
