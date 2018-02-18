@@ -4,6 +4,7 @@ import sample.model.cell.Cell;
 import sample.model.coord.Coordinate;
 import sample.model.figure.BaseFigure;
 import sample.model.figure.FigureT;
+import sample.model.figure.RotationMode;
 import sample.ui.field.IFieldController;
 
 import java.util.Collection;
@@ -15,22 +16,25 @@ import java.util.stream.Collectors;
 public class FieldManager implements IFieldManager {
 
 
-    private int middlePosition;
-
     private IFieldController controller;
     private BaseFigure figure;
 
     // saver static blocks, which were stop
     private CellsSaver cellsSaver;
     private List<Coordinate> coordinates;
-
+    private RotationMode rotationMode;
+    private List<Coordinate> usedCoordinates;
+    private int fieldHeight;
+    private int filedWidth;
 
     private Cell[][] baseMatrix;
 
-    public FieldManager(int middlePosition,IFieldController controller,CellsSaver cellsSaver) {
+
+    public FieldManager(IFieldController controller,CellsSaver cellsSaver,int fieldHeight,int filedWidth) {
         this.controller = controller;
-        this.middlePosition = middlePosition;
         this.cellsSaver  = cellsSaver;
+        this.fieldHeight = fieldHeight;
+        this.filedWidth = filedWidth;
     }
 
 
@@ -39,8 +43,6 @@ public class FieldManager implements IFieldManager {
         if (isCanMoveDown()) {
             figure.moveDown();
         } else {
-
-           /* Cell[][] baseCells = controller.getBaseCells();*/
 
             boolean isNeedToShiftLinesDown = false;
 
@@ -105,19 +107,25 @@ public class FieldManager implements IFieldManager {
 
     @Override
     public void rotate() {
-        figure.rotate();
-        controller.updateFigure(figure);
-        // set figure cell if change matrix (rotate stone)
-
+        if (isCanRotate()) {
+            // change next figure mode
+            rotationMode = RotationMode.getNext(rotationMode);
+            figure.rotate(rotationMode);
+            controller.updateFigure(figure);
+            // set figure cell if change matrix (rotate stone)
+        } else {
+            //figure.setCoordinates(backupCoordinates);
+        }
     }
 
     @Override
-    public BaseFigure createFigure(int x, int y) {
+    public BaseFigure createFigure(Coordinate coordinate) {
         // TODO: random create objects
 
         if (true) {
-            figure = new FigureT(new Coordinate(x,y));
+            figure = new FigureT(new Coordinate(coordinate.getX(),coordinate.getY()), RotationMode.NORMAL);
         }
+        rotationMode = RotationMode.NORMAL;
         coordinates = figure.getCoordinates();
         baseMatrix  = controller.getBaseCells();
         return figure;
@@ -249,7 +257,31 @@ public class FieldManager implements IFieldManager {
     }
 
     private boolean isCanRotate() {
-        List<Coordinate> tempCoordinates = coordinates;
+        BaseFigure tempFigure;
+        RotationMode tempRotationMode = RotationMode.getNext(rotationMode);
+        if (this.figure instanceof FigureT) {
+            // set current rotation mode, which will be changed to another
+            tempFigure =  new FigureT(figure.getTopLeftCoordinate(),tempRotationMode);
+            System.out.println("FigureT");
+        } else tempFigure = new FigureT(figure.getTopLeftCoordinate(),tempRotationMode);
+
+        List<Coordinate> newCoordinates = tempFigure.getCoordinates();
+
+        System.out.println("TempFigure :: topCoordinate " + tempFigure.getTopLeftCoordinate());
+
+        tempFigure = null;
+
+        List<Coordinate> savedCoordinates = cellsSaver.getCoordinates();
+
+        for (Coordinate coordinate : newCoordinates) {
+            if (coordinate.getX() <= 0 || coordinate.getY() >= baseMatrix[0].length) {
+                System.out.println("IsCanRotate false :: X < 0 or Y >= baseMatrix[0].length");
+                return false;
+            } else if (savedCoordinates.contains(coordinate)) {
+                System.out.println("IsCanRotate false :: X=" +coordinate.getX() +",Y=" + coordinate.getY() +" filled");
+                return false;
+            }
+        }
 
         return true;
     }

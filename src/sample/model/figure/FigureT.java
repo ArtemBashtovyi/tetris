@@ -5,53 +5,46 @@ import sample.model.coord.Coordinate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static sample.model.figure.BaseFigure.RotationMode.*;
 
 public class FigureT extends BaseFigure {
 
-    private RotationMode rotationMode;
     private List<Coordinate> coordinates = new ArrayList<>();
 
-    public FigureT(Coordinate topLeftCoordinate) {
+    public FigureT(Coordinate topLeftCoordinate,RotationMode rotationMode) {
         super(topLeftCoordinate);
-        this.rotationMode = ROTATED_270;
-        setFigureMatrix(topLeftCoordinate);
+        setFigureMatrix(topLeftCoordinate,rotationMode);
     }
 
     @Override
-    void setFigureMatrix(Coordinate topLeftCoordinate) {
+    void setFigureMatrix(Coordinate topLeftCoordinate,RotationMode rotationMode) {
         /*System.out.println("topLeftCoordinate = " + topLeftCoordinate);*/
         coordinates.clear();
         switch (rotationMode) {
             case NORMAL:{
-                this.rotationMode = ROTATED_90;
                 coordinates.add(topLeftCoordinate);
                 coordinates.add(new Coordinate(topLeftCoordinate.x+1,topLeftCoordinate.y));
                 coordinates.add(new Coordinate(topLeftCoordinate.x+1,topLeftCoordinate.y-1));
                 coordinates.add(new Coordinate(topLeftCoordinate.x+2,topLeftCoordinate.y));
-                System.out.println("ROTATED_90");
+                System.out.println("NORMAL_INSTALLED");
                 break;
             }
             case ROTATED_90:{
-                this.rotationMode = ROTATED_180;
                 coordinates.add(new Coordinate(topLeftCoordinate.x-1,topLeftCoordinate.y+1));
                 coordinates.add(new Coordinate(topLeftCoordinate.x,topLeftCoordinate.y+1));
                 coordinates.add(topLeftCoordinate);
                 coordinates.add(new Coordinate(topLeftCoordinate.x+1,topLeftCoordinate.y+1));
-                System.out.println("ROTATED_180");
+                System.out.println("ROTATED_90_INSTALLED");
                 break;
             }
             case ROTATED_180:{
-                this.rotationMode = ROTATED_270;
                 coordinates.add(new Coordinate(topLeftCoordinate.x+1,topLeftCoordinate.y));
                 coordinates.add(new Coordinate(topLeftCoordinate.x+1,topLeftCoordinate.y-1));
                 coordinates.add(new Coordinate(topLeftCoordinate.x,topLeftCoordinate.y-1));
                 coordinates.add(new Coordinate(topLeftCoordinate.x+1,topLeftCoordinate.y-2));
-                System.out.println("ROTATED_270");
+                System.out.println("ROTATED_180_INSTALLED");
                 break;
             }
             default:
-                this.rotationMode = NORMAL;
                 coordinates.add(topLeftCoordinate);
                 coordinates.add(new Coordinate(topLeftCoordinate.x,topLeftCoordinate.y+1));
                 coordinates.add(new Coordinate(topLeftCoordinate.x+1,topLeftCoordinate.y+1));
@@ -60,7 +53,7 @@ public class FigureT extends BaseFigure {
                 coordinates.add(new Coordinate(topLeftCoordinate.x,topLeftCoordinate.y-1));
                 coordinates.add(new Coordinate(topLeftCoordinate.x+1,topLeftCoordinate.y-1));
                 coordinates.add(new Coordinate(topLeftCoordinate.x,topLeftCoordinate.y-2));*/
-                System.out.println("NORMAL");
+                System.out.println("ROTATED_270_INSTALLED");
         }
     }
 
@@ -68,6 +61,7 @@ public class FigureT extends BaseFigure {
     List<Coordinate> getFigureMatrix() {
         return coordinates;
     }
+
 
 
 }

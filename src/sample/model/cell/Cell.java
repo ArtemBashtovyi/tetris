@@ -79,16 +79,6 @@ public class Cell extends StackPane {
         rectangle.visibleProperty().bind(updateProperty);
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-
-    // FIXME : Change to Colored boolean value (if colored than 1,else 0)
 
     public boolean isFilled() {
         return currentColor.equals(FULL_COLOR);

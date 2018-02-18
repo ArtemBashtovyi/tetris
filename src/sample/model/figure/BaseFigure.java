@@ -10,13 +10,6 @@ public abstract class BaseFigure {
 
     private static final CoordinateComparator COMPARATOR = new CoordinateComparator();
 
-    enum RotationMode {
-        NORMAL,
-        ROTATED_90,
-        ROTATED_180,
-        ROTATED_270
-    }
-
     private List<Coordinate> coordinates;
     private Coordinate topLeftCoordinate;
 
@@ -42,19 +35,24 @@ public abstract class BaseFigure {
         }
     }
 
-
-    public void rotate() {
+    public void rotate(RotationMode rotationMode) {
         // change figure matrix
-        setFigureMatrix(topLeftCoordinate);
+        setFigureMatrix(topLeftCoordinate,rotationMode);
         //set new changed figure matrix
         coordinates = getFigureMatrix();
         // set left top point
         setTopLeftCoordinate();
     }
 
+    // get current coordinates of figure
     public List<Coordinate> getCoordinates() {
         coordinates = getFigureMatrix();
         return coordinates;
+    }
+
+    // get current top left coordinate
+    public Coordinate getTopLeftCoordinate() {
+        return topLeftCoordinate;
     }
 
     // computation of left top coordinate figure
@@ -68,9 +66,9 @@ public abstract class BaseFigure {
         if (!coordinates.isEmpty()) {
             topLeftCoordinate = coordinates.get(0);
         }
-
     }
 
-    abstract void setFigureMatrix(Coordinate topLeftCoordinate);
+    abstract void setFigureMatrix(Coordinate topLeftCoordinate,RotationMode rotationMode);
     abstract List<Coordinate> getFigureMatrix();
+
 }

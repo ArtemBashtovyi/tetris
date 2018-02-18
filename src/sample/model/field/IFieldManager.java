@@ -1,5 +1,6 @@
 package sample.model.field;
 
+import sample.model.coord.Coordinate;
 import sample.model.figure.BaseFigure;
 
 public interface IFieldManager {
@@ -13,7 +14,7 @@ public interface IFieldManager {
 
     void rotate();
 
-    BaseFigure createFigure(int x,int y);
+    BaseFigure createFigure(Coordinate coordinate);
 
 
 }

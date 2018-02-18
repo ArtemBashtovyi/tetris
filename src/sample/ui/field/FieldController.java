@@ -38,7 +38,7 @@ public class FieldController implements Main.OnKeyListener,IFieldController {
     void initialize() {
 
         cellsSaver = new CellsSaver(this);
-        fieldManager = new FieldManager(middlePosition,this,cellsSaver);
+        fieldManager = new FieldManager(this,cellsSaver);
 
         layout.setMaxHeight(MAIN_SCREEN_HEIGHT);
         layout.setMaxWidth(MAIN_SCREEN_WIDTH);
@@ -62,7 +62,7 @@ public class FieldController implements Main.OnKeyListener,IFieldController {
             baseMatrix[baseMatrix.length-3][i].setColor(Cell.getFullColor());
             cellsSaver.addCell(new Coordinate(baseMatrix.length-3,i));
         }
-        updateFigure(fieldManager.createFigure(0,middlePosition));
+        updateFigure(fieldManager.createFigure(new Coordinate(0,middlePosition)));
         startTimer();
 
     }
@@ -89,24 +89,6 @@ public class FieldController implements Main.OnKeyListener,IFieldController {
         List<Coordinate> figureCells = figure.getCoordinates();
 
         cleanUpField();
-
-       /* for (int i = 0; i < figureCells.length;i++) {
-            for (int j = 0; j < figureCells[i].length;j++) {
-                if (figureCells[i][j].getState() == 1) {
-                    Cell cell = figureCells[i][j];
-                    baseMatrix[cell.getX()][cell.getY()].setColor(cell.getColor());
-                    cell = null;
-                }
-            }
-        }*/
-
-        /*for (int i = 0; i < figureCells.length;i++) {
-            for (int j = 0; j < figureCells[i].length;j++) {
-                if (figureCells[i][j].getState() == 1) {
-                    baseMatrix[x + i][y + j].setColor(figureCells[i][j].getColor());
-                }
-            }
-        }*/
 
 
         for(Coordinate cell : figureCells) {
@@ -142,7 +124,7 @@ public class FieldController implements Main.OnKeyListener,IFieldController {
 
     @Override
     public void setNewFigure() {
-        fieldManager.createFigure(0,middlePosition);
+        fieldManager.createFigure(new Coordinate(0,middlePosition));
     }
 
     @Override
