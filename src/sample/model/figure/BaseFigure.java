@@ -3,6 +3,7 @@ package sample.model.figure;
 
 import sample.model.coord.Coordinate;
 import sample.model.coord.CoordinateComparator;
+import sample.model.figure.state.RotationMode;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public abstract class BaseFigure {
     private List<Coordinate> coordinates;
     private Coordinate topLeftCoordinate;
 
-    BaseFigure(Coordinate topLeftCoordinate) {
+    BaseFigure(Coordinate topLeftCoordinate,RotationMode rotationMode) {
         this.topLeftCoordinate = topLeftCoordinate;
     }
 
@@ -70,5 +71,5 @@ public abstract class BaseFigure {
 
     abstract void setFigureMatrix(Coordinate topLeftCoordinate,RotationMode rotationMode);
     abstract List<Coordinate> getFigureMatrix();
-
+    public abstract int getState();
 }

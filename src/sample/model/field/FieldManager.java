@@ -1,42 +1,75 @@
 package sample.model.field;
 
-import sample.model.cell.Cell;
 import sample.model.coord.Coordinate;
-import sample.model.figure.BaseFigure;
-import sample.model.figure.FigureT;
-import sample.model.figure.RotationMode;
+import sample.model.figure.*;
+import sample.model.figure.state.RotationMode;
 import sample.ui.field.IFieldController;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class FieldManager implements IFieldManager {
 
-
     private IFieldController controller;
     private BaseFigure figure;
 
-    // saver static blocks, which were stop
+    // saver dropped  blocks
     private CellsSaver cellsSaver;
+    // actual figure coordinates
     private List<Coordinate> coordinates;
+    // current rotation mode
     private RotationMode rotationMode;
-    private List<Coordinate> usedCoordinates;
+
+    // Main Field size
     private int fieldHeight;
-    private int filedWidth;
-
-    private Cell[][] baseMatrix;
+    private int fieldWidth;
 
 
-    public FieldManager(IFieldController controller,CellsSaver cellsSaver,int fieldHeight,int filedWidth) {
+    public FieldManager(IFieldController controller,CellsSaver cellsSaver,int fieldHeight,int fieldWidth) {
         this.controller = controller;
         this.cellsSaver  = cellsSaver;
         this.fieldHeight = fieldHeight;
-        this.filedWidth = filedWidth;
+        this.fieldWidth = fieldWidth;
     }
 
+    @Override
+    public BaseFigure createFigure(Coordinate coordinate) {
+        // TODO: random create objects
+        Random rnd = new Random(System.currentTimeMillis());
+        int number = 1 + rnd.nextInt(7 - 1 + 1);
+
+        switch (number) {
+            case 1 : {
+                figure = new FigureT(coordinate, RotationMode.NORMAL);
+                break;
+            }
+            case 2 : {
+                figure = new FigureZ(coordinate, RotationMode.NORMAL);
+                break;
+            }
+            case 3 : {
+                figure = new FigureO(coordinate, RotationMode.NORMAL);
+                break;
+            }
+            case 4 : {
+                figure = new FigureJ(coordinate, RotationMode.NORMAL);
+                break;
+            }
+            case 5 : {
+                figure = new FigureL(coordinate, RotationMode.NORMAL);
+                break;
+            }
+            case 6 : {
+                figure = new FigureS(coordinate, RotationMode.NORMAL);
+                break;
+            }
+            default:figure = new FigureI(coordinate,RotationMode.NORMAL);
+        }
+
+        rotationMode = RotationMode.NORMAL;
+        coordinates = figure.getCoordinates();
+        return figure;
+    }
 
     @Override
     public void moveFigureDown() {
@@ -53,7 +86,7 @@ public class FieldManager implements IFieldManager {
 
             // set position which was last
             int lastRemovePosition = 0;
-            for (int i = 0; i < baseMatrix.length;i++) {
+            for (int i = 0; i < fieldHeight;i++) {
                 if (cellsSaver.isLineFilled(i)) {
                     cellsSaver.removeCellsLine(i);
                     System.out.println("removedLine" + i);
@@ -113,22 +146,7 @@ public class FieldManager implements IFieldManager {
             figure.rotate(rotationMode);
             controller.updateFigure(figure);
             // set figure cell if change matrix (rotate stone)
-        } else {
-            //figure.setCoordinates(backupCoordinates);
         }
-    }
-
-    @Override
-    public BaseFigure createFigure(Coordinate coordinate) {
-        // TODO: random create objects
-
-        if (true) {
-            figure = new FigureT(new Coordinate(coordinate.getX(),coordinate.getY()), RotationMode.NORMAL);
-        }
-        rotationMode = RotationMode.NORMAL;
-        coordinates = figure.getCoordinates();
-        baseMatrix  = controller.getBaseCells();
-        return figure;
     }
 
     /**
@@ -138,9 +156,6 @@ public class FieldManager implements IFieldManager {
      *  true - move allowed
      */
     private boolean isCanMoveDown() {
-
-        // temporary
-        //Cell[][] baseMatrix = controller.getBaseCells();
 
         // Use coordinates which hasn't colored cell under themselves
         List<Coordinate> filteredCoordinates = coordinates.stream()
@@ -166,15 +181,15 @@ public class FieldManager implements IFieldManager {
             int x = coordinate.x;
             int y = coordinate.y;
 
-            if (x + 1 == 1) {
+            /*if (x + 1 == 1) {
                 return false;
-            }
-            if (x + 1 >= baseMatrix.length) {
+            }*/
+            if (x + 1 >= fieldHeight) {
                // System.out.println("cell.x > baseMatrix.length");
                 return false;
             }
 
-            if (baseMatrix[x+1][y].isFilled()) {
+            if (cellsSaver.isExist(x+1,y)) {
                 //System.out.println("filled block" + coordinate);
                 return false;
             }
@@ -211,7 +226,7 @@ public class FieldManager implements IFieldManager {
                 return false;
             }
 
-            if (baseMatrix[x][y-1].isFilled()) {
+            if (cellsSaver.isExist(x,y-1)) {
                 //System.out.println("filled block" + coordinate);
                 return false;
             }
@@ -242,13 +257,12 @@ public class FieldManager implements IFieldManager {
 
             int x = coordinate.x;
             int y = coordinate.y;
-
-            if (y + 1 >= baseMatrix[0].length) {
+            System.out.println("y+1");
+            if (y + 1 >= fieldWidth) {
                 return false;
             }
 
-            if (baseMatrix[x][y+1].isFilled()) {
-                //System.out.println("filled block" + coordinate);
+            if (cellsSaver.isExist(x,y+1)) {
                 return false;
             }
         }
@@ -259,23 +273,41 @@ public class FieldManager implements IFieldManager {
     private boolean isCanRotate() {
         BaseFigure tempFigure;
         RotationMode tempRotationMode = RotationMode.getNext(rotationMode);
+
         if (this.figure instanceof FigureT) {
             // set current rotation mode, which will be changed to another
             tempFigure =  new FigureT(figure.getTopLeftCoordinate(),tempRotationMode);
             System.out.println("FigureT");
-        } else tempFigure = new FigureT(figure.getTopLeftCoordinate(),tempRotationMode);
+        } else if (this.figure instanceof FigureI) {
+            tempFigure =  new FigureI(figure.getTopLeftCoordinate(),tempRotationMode);
+            System.out.println("FigureI");
+        } else if (this.figure instanceof FigureS) {
+            tempFigure =  new FigureS(figure.getTopLeftCoordinate(),tempRotationMode);
+            System.out.println("FigureS");
+        }else if (this.figure instanceof FigureZ) {
+            tempFigure =  new FigureZ(figure.getTopLeftCoordinate(),tempRotationMode);
+            System.out.println("FigureZ");
+        } else if (this.figure instanceof FigureJ) {
+            tempFigure =  new FigureJ(figure.getTopLeftCoordinate(),tempRotationMode);
+            System.out.println("FigureJ");
+        } else if (this.figure instanceof FigureL) {
+            tempFigure =  new FigureL(figure.getTopLeftCoordinate(),tempRotationMode);
+            System.out.println("FigureL");
+        } else {
+            tempFigure =  new FigureO(figure.getTopLeftCoordinate(),tempRotationMode);
+            System.out.println("FigureO");
+        }
 
         List<Coordinate> newCoordinates = tempFigure.getCoordinates();
-
         System.out.println("TempFigure :: topCoordinate " + tempFigure.getTopLeftCoordinate());
 
         tempFigure = null;
 
         List<Coordinate> savedCoordinates = cellsSaver.getCoordinates();
-
+        // match future figure coordinates with used coordinates
         for (Coordinate coordinate : newCoordinates) {
-            if (coordinate.getX() <= 0 || coordinate.getY() >= baseMatrix[0].length) {
-                System.out.println("IsCanRotate false :: X < 0 or Y >= baseMatrix[0].length");
+            if (coordinate.getY() <= 0  || coordinate.getY() >= fieldWidth) {
+                System.out.println("IsCanRotate false :: X < 0 or Y >= field width");
                 return false;
             } else if (savedCoordinates.contains(coordinate)) {
                 System.out.println("IsCanRotate false :: X=" +coordinate.getX() +",Y=" + coordinate.getY() +" filled");
@@ -288,7 +320,7 @@ public class FieldManager implements IFieldManager {
 
     private void shiftLinesDown(int startLine,int capacity) {
 
-        // filter all positions cell above  empty line and move they to down
+        // filter all positions cell above  empty line and move they  down
         List<Coordinate> coordinates = cellsSaver.getCoordinates()
                 .stream()
                 .peek(coordinate -> {

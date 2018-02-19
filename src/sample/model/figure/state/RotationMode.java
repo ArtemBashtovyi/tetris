@@ -1,4 +1,4 @@
-package sample.model.figure;
+package sample.model.figure.state;
 
 
 public enum RotationMode {

@@ -1,24 +1,26 @@
 package sample.model.figure;
 
+import javafx.scene.Parent;
 import sample.model.coord.Coordinate;
 import sample.model.figure.state.RotationMode;
-import sample.model.figure.state.StateConstants;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static sample.model.figure.state.StateConstants.FIGURE_S;
 
-public class FigureT extends BaseFigure {
+public class FigureS extends BaseFigure{
 
     private List<Coordinate> coordinates = new ArrayList<>();
 
-    public FigureT(Coordinate topLeftCoordinate,RotationMode rotationMode) {
-        super(topLeftCoordinate,rotationMode);
+
+    public FigureS(Coordinate topLeftCoordinate, RotationMode rotationMode) {
+        super(topLeftCoordinate, rotationMode);
         setFigureMatrix(topLeftCoordinate,rotationMode);
     }
 
     @Override
-    void setFigureMatrix(Coordinate topLeftCoordinate,RotationMode rotationMode) {
+    void setFigureMatrix(Coordinate topLeftCoordinate, RotationMode rotationMode) {
         coordinates.clear();
         switch (rotationMode) {
             case NORMAL:{
@@ -61,8 +63,6 @@ public class FigureT extends BaseFigure {
 
     @Override
     public int getState() {
-        return StateConstants.FIGURE_T;
+        return FIGURE_S;
     }
-
-
 }

@@ -7,18 +7,16 @@ import sample.model.figure.state.StateConstants;
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class FigureT extends BaseFigure {
-
+public class FigureZ extends BaseFigure {
     private List<Coordinate> coordinates = new ArrayList<>();
 
-    public FigureT(Coordinate topLeftCoordinate,RotationMode rotationMode) {
-        super(topLeftCoordinate,rotationMode);
+    public FigureZ(Coordinate topLeftCoordinate, RotationMode rotationMode) {
+        super(topLeftCoordinate, rotationMode);
         setFigureMatrix(topLeftCoordinate,rotationMode);
     }
 
     @Override
-    void setFigureMatrix(Coordinate topLeftCoordinate,RotationMode rotationMode) {
+    void setFigureMatrix(Coordinate topLeftCoordinate, RotationMode rotationMode) {
         coordinates.clear();
         switch (rotationMode) {
             case NORMAL:{
@@ -47,9 +45,13 @@ public class FigureT extends BaseFigure {
             }
             default:
                 coordinates.add(topLeftCoordinate);
+                coordinates.add(new Coordinate(topLeftCoordinate.x,topLeftCoordinate.y+1));
+                coordinates.add(new Coordinate(topLeftCoordinate.x+1,topLeftCoordinate.y+1));
+                coordinates.add(new Coordinate(topLeftCoordinate.x+1,topLeftCoordinate.y));
+                /*coordinates.add(topLeftCoordinate);
                 coordinates.add(new Coordinate(topLeftCoordinate.x,topLeftCoordinate.y-1));
                 coordinates.add(new Coordinate(topLeftCoordinate.x+1,topLeftCoordinate.y-1));
-                coordinates.add(new Coordinate(topLeftCoordinate.x,topLeftCoordinate.y-2));
+                coordinates.add(new Coordinate(topLeftCoordinate.x,topLeftCoordinate.y-2));*/
                 System.out.println("ROTATED_270_INSTALLED");
         }
     }
@@ -61,8 +63,6 @@ public class FigureT extends BaseFigure {
 
     @Override
     public int getState() {
-        return StateConstants.FIGURE_T;
+        return StateConstants.FIGURE_Z;
     }
-
-
 }

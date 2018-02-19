@@ -10,12 +10,12 @@ import sample.ui.UiConstants;
 
 import java.util.Objects;
 
+import static sample.model.figure.state.StateConstants.*;
 import static sample.ui.UiConstants.*;
 
 
 public class Cell extends StackPane {
 
-    private int state = 0;
     private int x;
     private int y;
 
@@ -60,28 +60,20 @@ public class Cell extends StackPane {
         return FULL_COLOR;
     }
 
-    public void setColor(Color color) {
-        rectangle.setFill(color);
-        currentColor = color;
-        if (currentColor.equals(EMPTY_COLOR)) {
-            state = 0;
-        } else state = 1;
-    }
-
-    public Color getColor() {
-        return currentColor;
-    }
-
-    public void update() {
-        updateProperty.setValue(false);
-        rectangle.visibleProperty().bind(updateProperty);
-        updateProperty.setValue(true);
-        rectangle.visibleProperty().bind(updateProperty);
-    }
-
-
-    public boolean isFilled() {
-        return currentColor.equals(FULL_COLOR);
+    public void setColor(int colorId) {
+        Color currentColor;
+        switch (colorId) {
+            case -1 : currentColor = EMPTY_COLOR;break;
+            case FIGURE_I : currentColor = FIGURE_I_COLOR;break;
+            case FIGURE_T : currentColor = FIGURE_T_COLOR;break;
+            case FIGURE_Z : currentColor = FIGURE_Z_COLOR;break;
+            case FIGURE_O : currentColor = FIGURE_O_COLOR;break;
+            case FIGURE_J : currentColor = FIGURE_J_COLOR;break;
+            case FIGURE_L : currentColor = FIGURE_L_COLOR;break;
+            case FIGURE_S : currentColor = FIGURE_S_COLOR;break;
+            default: currentColor = FULL_COLOR;
+        }
+        rectangle.setFill(currentColor);
     }
 
     @Override
@@ -96,5 +88,13 @@ public class Cell extends StackPane {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
+    }
+
+
+    public void update() {
+        updateProperty.setValue(false);
+        rectangle.visibleProperty().bind(updateProperty);
+        updateProperty.setValue(true);
+        rectangle.visibleProperty().bind(updateProperty);
     }
 }

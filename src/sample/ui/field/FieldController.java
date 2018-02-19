@@ -38,7 +38,7 @@ public class FieldController implements Main.OnKeyListener,IFieldController {
     void initialize() {
 
         cellsSaver = new CellsSaver(this);
-        fieldManager = new FieldManager(this,cellsSaver);
+        fieldManager = new FieldManager(this,cellsSaver,baseMatrix.length,baseMatrix[0].length);
 
         layout.setMaxHeight(MAIN_SCREEN_HEIGHT);
         layout.setMaxWidth(MAIN_SCREEN_WIDTH);
@@ -51,17 +51,17 @@ public class FieldController implements Main.OnKeyListener,IFieldController {
             }
         }
 
-        for (int i = 0; i < baseMatrix[15].length-2;i++) {
-            baseMatrix[baseMatrix.length-1][i].setColor(Cell.getFullColor());
-            baseMatrix[baseMatrix.length-2][i].setColor(Cell.getFullColor());
+        /*for (int i = 0; i < baseMatrix[15].length-2;i++) {
+            baseMatrix[baseMatrix.length-1][i].setColor(0);
+            baseMatrix[baseMatrix.length-2][i].setColor(0);
             cellsSaver.addCell(new Coordinate(baseMatrix.length-1,i));
             cellsSaver.addCell(new Coordinate(baseMatrix.length-2,i));
         }
 
         for (int i = 0; i < baseMatrix[15].length-3;i++) {
-            baseMatrix[baseMatrix.length-3][i].setColor(Cell.getFullColor());
+            baseMatrix[baseMatrix.length-3][i].setColor(0);
             cellsSaver.addCell(new Coordinate(baseMatrix.length-3,i));
-        }
+        }*/
         updateFigure(fieldManager.createFigure(new Coordinate(0,middlePosition)));
         startTimer();
 
@@ -90,9 +90,8 @@ public class FieldController implements Main.OnKeyListener,IFieldController {
 
         cleanUpField();
 
-
         for(Coordinate cell : figureCells) {
-            baseMatrix[cell.x][cell.y].setColor(Cell.getFullColor());
+            baseMatrix[cell.x][cell.y].setColor(figure.getState());
         }
 
         updateField();
@@ -109,8 +108,8 @@ public class FieldController implements Main.OnKeyListener,IFieldController {
                 // check if Cell exist in saved Cells
 
                 if (cellsSaver.isExist(new Coordinate(i,j))) {
-                    baseMatrix[i][j].setColor(Cell.getFullColor());
-                } else baseMatrix[i][j].setColor(Cell.getEmptyColor());
+                    baseMatrix[i][j].setColor(0);
+                } else baseMatrix[i][j].setColor(-1);
 
 
             }

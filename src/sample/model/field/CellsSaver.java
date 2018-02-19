@@ -54,6 +54,13 @@ public class CellsSaver {
         return false;
     }
 
+    public boolean isExist(int x,int y) {
+        for (Coordinate coordinate : coordinates) {
+            if (coordinate.getX() == x && coordinate.getY() == y) return true;
+        }
+        return false;
+    }
+
     public boolean isLineEmpty(int lineNumber) {
         for (Coordinate coordinate : coordinates) {
             if (coordinate.x == lineNumber) return false;
