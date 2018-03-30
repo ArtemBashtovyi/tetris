@@ -6,10 +6,9 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
-import sample.Main;
-import sample.model.field.CellsSaver;
-import sample.model.field.FieldManager;
-import sample.model.field.IFieldManager;
+import sample.App;
+import sample.presenter.FieldPresenter;
+import sample.presenter.IFieldPresenter;
 import sample.model.cell.Cell;
 import sample.model.coord.Coordinate;
 import sample.model.figure.BaseFigure;
@@ -18,16 +17,15 @@ import java.util.List;
 
 import static sample.ui.UiConstants.*;
 
-public class FieldController implements Main.OnKeyListener,IFieldController {
+public class FieldView implements App.OnKeyListener,IFieldView {
 
     // count cells
     private int xCells = (int) (MAIN_SCREEN_HEIGHT / CELL_WIDTH - 3);
     private int yCells = (int) (MAIN_SCREEN_WIDTH  / CELL_WIDTH);
 
     private Cell baseMatrix[][] = new Cell[xCells][yCells];
-    private IFieldManager fieldManager;
+    private IFieldPresenter fieldManager;
     private Timeline timer;
-    private CellsSaver cellsSaver;
 
     @FXML
     Pane layout;
@@ -37,13 +35,13 @@ public class FieldController implements Main.OnKeyListener,IFieldController {
     @FXML
     void initialize() {
 
-        cellsSaver = new CellsSaver(this);
-        fieldManager = new FieldManager(this,cellsSaver,baseMatrix.length,baseMatrix[0].length);
+        fieldManager = new FieldPresenter(this,baseMatrix.length,baseMatrix[0].length);
 
         layout.setMaxHeight(MAIN_SCREEN_HEIGHT);
         layout.setMaxWidth(MAIN_SCREEN_WIDTH);
 
         System.out.println("Matrix[" + (xCells-1) + "," + (yCells-1) +"]");
+
         for (int i = 0; i < baseMatrix.length;i++) {
             for (int j = 0; j < baseMatrix[i].length;j++) {
                 baseMatrix[i][j] = new Cell(i, j);
@@ -51,18 +49,7 @@ public class FieldController implements Main.OnKeyListener,IFieldController {
             }
         }
 
-        /*for (int i = 0; i < baseMatrix[15].length-2;i++) {
-            baseMatrix[baseMatrix.length-1][i].setColor(0);
-            baseMatrix[baseMatrix.length-2][i].setColor(0);
-            cellsSaver.addCell(new Coordinate(baseMatrix.length-1,i));
-            cellsSaver.addCell(new Coordinate(baseMatrix.length-2,i));
-        }
-
-        for (int i = 0; i < baseMatrix[15].length-3;i++) {
-            baseMatrix[baseMatrix.length-3][i].setColor(0);
-            cellsSaver.addCell(new Coordinate(baseMatrix.length-3,i));
-        }*/
-        updateFigure(fieldManager.createFigure(new Coordinate(0,middlePosition)));
+        updateFigure(fieldManager.createFigure(new Coordinate(1,middlePosition)));
         startTimer();
 
     }
@@ -88,7 +75,7 @@ public class FieldController implements Main.OnKeyListener,IFieldController {
 
         List<Coordinate> figureCells = figure.getCoordinates();
 
-        cleanUpField();
+        cleanUpField(fieldManager.getSavedCoordinates());
 
         for(Coordinate cell : figureCells) {
             baseMatrix[cell.x][cell.y].setColor(figure.getState());
@@ -98,32 +85,24 @@ public class FieldController implements Main.OnKeyListener,IFieldController {
     }
 
 
-    @Override
-    public void cleanUpField() {
+
+    private void cleanUpField(List<Coordinate> coordinates) {
         // get saved coordinates and set to base matrix color,another Cells have empty color
 
         for (int i = 0; i < baseMatrix.length;i++) {
             for (int j = 0; j < baseMatrix[i].length;j++) {
 
                 // check if Cell exist in saved Cells
-
-                if (cellsSaver.isExist(new Coordinate(i,j))) {
+                if (coordinates.contains(new Coordinate(i,j))) {
                     baseMatrix[i][j].setColor(0);
                 } else baseMatrix[i][j].setColor(-1);
-
-
             }
         }
     }
 
     @Override
-    public Cell[][] getBaseCells() {
-        return baseMatrix;
-    }
-
-    @Override
     public void setNewFigure() {
-        fieldManager.createFigure(new Coordinate(0,middlePosition));
+        fieldManager.createFigure(new Coordinate(1,middlePosition));
     }
 
     @Override
@@ -154,5 +133,11 @@ public class FieldController implements Main.OnKeyListener,IFieldController {
     @Override
     public void onDown() {
         fieldManager.moveFigureDown();
+    }
+
+    @Override
+    public void showGameOverDialog() {
+        System.out.println("Game over");
+        timer.stop();
     }
 }

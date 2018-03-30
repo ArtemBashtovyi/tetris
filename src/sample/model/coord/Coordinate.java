@@ -1,8 +1,11 @@
 package sample.model.coord;
 
+import javafx.scene.image.Image;
+
 import java.util.Objects;
 
 public class Coordinate {
+
     public int x;
     public int y;
 
@@ -33,11 +36,4 @@ public class Coordinate {
         return Objects.hash(x, y);
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
 }

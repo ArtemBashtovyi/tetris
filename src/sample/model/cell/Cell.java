@@ -50,16 +50,6 @@ public class Cell extends StackPane {
         getChildren().add(rectangle);
     }
 
-    @Contract(pure = true)
-    public static Color getEmptyColor() {
-        return EMPTY_COLOR;
-    }
-
-    @Contract(pure = true)
-    public static Color getFullColor() {
-        return FULL_COLOR;
-    }
-
     public void setColor(int colorId) {
         Color currentColor;
         switch (colorId) {

@@ -1,27 +1,34 @@
-package sample.model.field;
+package sample.save;
 
 import org.jetbrains.annotations.NotNull;
 import sample.model.coord.Coordinate;
-import sample.ui.field.IFieldController;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CellsSaver {
+public class SaveManager {
+
+    private static SaveManager instance = null;
 
     // FIXME :IF ADDITIONALLY LOGIC WON'T EXIST,THAN FIX view to int type in constructor
     private int fieldYSize;
     private List<Coordinate> coordinates;
 
-    public CellsSaver(@NotNull IFieldController view) {
+    public static synchronized SaveManager getInstance(int fieldYSize) {
+        if (instance == null) {
+            instance = new SaveManager(fieldYSize);
+        }
+        return instance;
+    }
+
+    private SaveManager(int fieldYSize) {
         coordinates = new ArrayList<>();
-        fieldYSize = view.getBaseCells()[0].length;
+        this.fieldYSize = fieldYSize;
     }
 
     public void addCell(Coordinate coordinate) {
         coordinates.add(coordinate);
-       // System.out.println("CellsSaver : addCell()  x=" + coordinate.x + " y=" + coordinate.y);
     }
 
     public void removeCellsLine(int lineNumber) {
@@ -56,7 +63,7 @@ public class CellsSaver {
 
     public boolean isExist(int x,int y) {
         for (Coordinate coordinate : coordinates) {
-            if (coordinate.getX() == x && coordinate.getY() == y) return true;
+            if (coordinate.x == x && coordinate.y == y) return true;
         }
         return false;
     }

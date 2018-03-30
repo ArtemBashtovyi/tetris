@@ -26,9 +26,9 @@ public class FigureO extends BaseFigure {
             case ROTATED_180:
             case ROTATED_270:
                 coordinates.add(topLeftCoordinate);
-                coordinates.add(new Coordinate(topLeftCoordinate.x,topLeftCoordinate.y-1));
-                coordinates.add(new Coordinate(topLeftCoordinate.x+1,topLeftCoordinate.y-1));
-                coordinates.add(new Coordinate(topLeftCoordinate.x,topLeftCoordinate.y-2));
+                coordinates.add(new Coordinate(topLeftCoordinate.x,topLeftCoordinate.y+1));
+                coordinates.add(new Coordinate(topLeftCoordinate.x+1,topLeftCoordinate.y));
+                coordinates.add(new Coordinate(topLeftCoordinate.x+1,topLeftCoordinate.y+1));
         }
     }
 

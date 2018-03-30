@@ -6,9 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sample.ui.UiConstants;
-import sample.ui.field.FieldController;
+import sample.ui.field.FieldView;
 
-public class Main extends Application {
+public class App extends Application {
 
     public interface OnKeyListener {
         void onUp();
@@ -19,13 +19,14 @@ public class Main extends Application {
 
     private OnKeyListener onKeyListener;
 
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("res/field.fxml"));
 
         Parent root = loader.load();
         // set key listener
-        onKeyListener = loader.<FieldController>getController();
+        onKeyListener = loader.<FieldView>getController();
         Scene scene = new Scene(root, UiConstants.MAIN_SCREEN_WIDTH, UiConstants.MAIN_SCREEN_HEIGHT);
 
         scene.setOnKeyPressed(event -> {

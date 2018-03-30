@@ -31,10 +31,10 @@ public class FigureI extends BaseFigure {
             }
             case ROTATED_90:
             default: {
-                coordinates.add(new Coordinate(topLeftCoordinate.x-2, topLeftCoordinate.y+1));
-                coordinates.add(new Coordinate(topLeftCoordinate.x-1, topLeftCoordinate.y+1));
-                coordinates.add(new Coordinate(topLeftCoordinate.x,topLeftCoordinate.y+1));
+                coordinates.add(new Coordinate(topLeftCoordinate.x, topLeftCoordinate.y+1));
                 coordinates.add(new Coordinate(topLeftCoordinate.x+1, topLeftCoordinate.y+1));
+                coordinates.add(new Coordinate(topLeftCoordinate.x+2,topLeftCoordinate.y+1));
+                coordinates.add(new Coordinate(topLeftCoordinate.x+3, topLeftCoordinate.y+1));
                 System.out.println("ROTATED_90_INSTALLED");
             }
         }
