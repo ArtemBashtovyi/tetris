@@ -18,8 +18,11 @@ public interface UiConstants {
     int CELL_WIDTH = 30;
     int CELL_HEIGHT = 30;
 
-    int MAIN_SCREEN_WIDTH = 500;
+    int MAIN_SCREEN_WIDTH = 700;
     int MAIN_SCREEN_HEIGHT = 800;
+
+    int FIELD_WIDTH = MAIN_SCREEN_WIDTH-300;
+    int FIELD_HEIGHT = MAIN_SCREEN_HEIGHT;
 
 }
 

@@ -2,6 +2,7 @@ package sample.model.cell;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -18,6 +19,7 @@ public class Cell extends StackPane {
 
     private int x;
     private int y;
+    private Image image;
 
     private Color currentColor = EMPTY_COLOR;
     private Rectangle rectangle = new Rectangle(CELL_WIDTH,CELL_HEIGHT);
@@ -87,4 +89,5 @@ public class Cell extends StackPane {
         updateProperty.setValue(true);
         rectangle.visibleProperty().bind(updateProperty);
     }
+    
 }

@@ -17,4 +17,5 @@ public interface IFieldView {
     void setNewFigure();
 
     void showGameOverDialog();
+
 }

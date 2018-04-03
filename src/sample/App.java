@@ -22,7 +22,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("res/field.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../res/field.fxml"));
 
         Parent root = loader.load();
         // set key listener

@@ -20,8 +20,8 @@ import static sample.ui.UiConstants.*;
 public class FieldView implements App.OnKeyListener,IFieldView {
 
     // count cells
-    private int xCells = (int) (MAIN_SCREEN_HEIGHT / CELL_WIDTH - 3);
-    private int yCells = (int) (MAIN_SCREEN_WIDTH  / CELL_WIDTH);
+    private int xCells = (int) (FIELD_HEIGHT / CELL_WIDTH - 3);
+    private int yCells = (int) (FIELD_WIDTH  / CELL_WIDTH);
 
     private Cell baseMatrix[][] = new Cell[xCells][yCells];
     private IFieldPresenter fieldManager;
