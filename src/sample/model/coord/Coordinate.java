@@ -8,11 +8,13 @@ public class Coordinate {
 
     public int x;
     public int y;
+    private int state;
 
     public Coordinate(int x, int y) {
         this.x = x;
         this.y = y;
     }
+
 
     @Override
     public String toString() {
@@ -36,4 +38,11 @@ public class Coordinate {
         return Objects.hash(x, y);
     }
 
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
 }

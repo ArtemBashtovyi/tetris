@@ -4,6 +4,11 @@ import sample.model.coord.Coordinate;
 import sample.model.factory.FigureFactory;
 import sample.model.factory.RandomFactory;
 import sample.model.factory.RotationFactory;
+import sample.move.MoveManager;
+import sample.move.commands.Command;
+import sample.move.commands.DownCommand;
+import sample.move.commands.LeftCommand;
+import sample.move.commands.RightCommand;
 import sample.save.SaveManager;
 import sample.model.figure.*;
 import sample.model.figure.state.RotationMode;
@@ -12,7 +17,7 @@ import sample.ui.field.IFieldView;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class FieldPresenter implements IFieldPresenter {
+public class FieldPresenter implements IFieldPresenter,DownCommand.GameOverHandler {
 
     private IFieldView controller;
     private BaseFigure figure;
@@ -24,13 +29,14 @@ public class FieldPresenter implements IFieldPresenter {
     // current rotation mode
     private RotationMode rotationMode;
 
-    private FigureFactory randomFactory;
+    private RandomFactory randomFactory;
     private FigureFactory rotationFactory;
 
     // App Field size
     private int fieldHeight;
     private int fieldWidth;
 
+    private MoveManager moveManager;
 
     public FieldPresenter(IFieldView controller, int fieldHeight, int fieldWidth) {
         this.controller = controller;
@@ -38,13 +44,14 @@ public class FieldPresenter implements IFieldPresenter {
         this.fieldHeight = fieldHeight;
         this.fieldWidth = fieldWidth;
         randomFactory = new RandomFactory();
+        moveManager = new MoveManager(fieldHeight,fieldWidth,saveManager,this);
     }
 
     @Override
     public BaseFigure createFigure(Coordinate coordinate) {
 
         figure = randomFactory.create(coordinate,RotationMode.NORMAL);
-
+        System.out.println("--------Next Figure------" + randomFactory.getNextFigure(coordinate));
         rotationMode = RotationMode.NORMAL;
 
         coordinates = figure.getCoordinates();
@@ -141,121 +148,19 @@ public class FieldPresenter implements IFieldPresenter {
      *  true - move allowed
      */
     private boolean isCanMoveDown() {
-
-        // Use coordinates which hasn't colored cell under themselves
-        List<Coordinate> filteredCoordinates = coordinates.stream()
-                .collect(Collectors.groupingBy(coordinate -> coordinate.y)) // group Coord for each Y in various collections
-                .values()
-                .stream()// stream of collections Stream<List<Coordinate>>
-                .map(groupedCoordinates -> {
-                    // return only most biggest value from the collection(with same Y coordinate items)
-                    if (groupedCoordinates.size() > 1)  {
-                        return Collections
-                                .singletonList(groupedCoordinates
-                                .stream()
-                                .max(Comparator.comparingInt(coordinate -> coordinate.x)).get());
-                    }
-                        return groupedCoordinates;
-                })
-                // join all collection to one collection
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
-
-        for(Coordinate coordinate : filteredCoordinates) {
-
-            int x = coordinate.x;
-            int y = coordinate.y;
-
-            // FIXME : Second way to handle game over mode
-            /*if (x + 1 == 1) {
-                return false;
-            }*/
-            if (x + 1 >= fieldHeight) {
-               // System.out.println("cell.x > baseMatrix.length");
-                return false;
-            }
-
-            if (saveManager.isExist(x+1,y)) {
-                //System.out.println("filled block" + coordinate);
-                return false;
-            }
-        }
-
-
-        return true;
+        return moveManager.isCanMoveDown(coordinates);
     }
 
+
     private boolean isCanTurnLeft() {
-        List<Coordinate> filteredCoordinates = coordinates.stream()
-                .collect(Collectors.groupingBy(coordinate -> coordinate.x))
-                .values()
-                .stream()
-                .map(groupedCoordinates -> {
-                    if (groupedCoordinates.size() > 1)  {
-                        return Collections
-                                .singletonList(groupedCoordinates
-                                        .stream()
-                                        .min(Comparator.comparingInt(coordinate -> coordinate.y)).get());
-                    }
-                    return groupedCoordinates;
-                })
-                // join all collection to one collection
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
-
-        for(Coordinate coordinate : filteredCoordinates) {
-
-            int x = coordinate.x;
-            int y = coordinate.y;
-
-            if (y - 1 < 0) {
-                return false;
-            }
-
-            if (saveManager.isExist(x,y-1)) {
-                //System.out.println("filled block" + coordinate);
-                return false;
-            }
-        }
-
-        return true;
+        return moveManager.isCanMoveLeft(coordinates);
     }
 
     // check right collision
     private boolean isCanTurnRight() {
-        List<Coordinate> filteredCoordinates = coordinates.stream()
-                .collect(Collectors.groupingBy(coordinate -> coordinate.x))
-                .values()
-                .stream()
-                .map(groupedCoordinates -> {
-                    if (groupedCoordinates.size() > 1)  {
-                        return Collections
-                                .singletonList(groupedCoordinates
-                                        .stream()
-                                        .max(Comparator.comparingInt(coordinate -> coordinate.y)).get());
-                    }
-                    return groupedCoordinates;
-                })
-                // join all collection to one collection
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
-
-        for(Coordinate coordinate : filteredCoordinates) {
-
-            int x = coordinate.x;
-            int y = coordinate.y;
-            System.out.println("y+1");
-            if (y + 1 >= fieldWidth) {
-                return false;
-            }
-
-            if (saveManager.isExist(x,y+1)) {
-                return false;
-            }
-        }
-
-        return true;
+        return moveManager.isCanMoveRight(coordinates);
     }
+
 
     private boolean isCanRotate() {
         BaseFigure tempFigure;
@@ -302,5 +207,8 @@ public class FieldPresenter implements IFieldPresenter {
     }
 
 
+    @Override
+    public void onGameOver() {
 
+    }
 }

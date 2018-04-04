@@ -42,11 +42,20 @@ public class FigureI extends BaseFigure {
 
     @Override
     List<Coordinate> getFigureMatrix() {
+        for (Coordinate coordinate : coordinates) {
+            coordinate.setState(StateConstants.FIGURE_I);
+        }
         return coordinates;
     }
 
     @Override
     public int getState() {
         return StateConstants.FIGURE_I;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " I";
+
     }
 }

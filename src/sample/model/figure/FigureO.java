@@ -2,6 +2,7 @@ package sample.model.figure;
 
 import sample.model.coord.Coordinate;
 import sample.model.figure.state.RotationMode;
+import sample.model.figure.state.StateConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,16 @@ public class FigureO extends BaseFigure {
 
     @Override
     List<Coordinate> getFigureMatrix() {
+        for (Coordinate coordinate : coordinates) {
+            coordinate.setState(StateConstants.FIGURE_O);
+        }
         return coordinates;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " O";
+
     }
 
     @Override

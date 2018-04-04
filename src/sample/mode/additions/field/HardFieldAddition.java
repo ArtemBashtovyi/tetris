@@ -1,13 +1,12 @@
 package sample.mode.additions.field;
 
 import sample.mode.FieldAddition;
-import sample.model.cell.Cell;
-import sample.save.SaveManager;
+import sample.model.cell.VolatileCell;
 
 public class HardFieldAddition implements FieldAddition {
 
     @Override
-    public Cell[][] getBaseField() {
-        return new Cell[20][11];
+    public VolatileCell[][] getBaseField() {
+        return new VolatileCell[20][11];
     }
 }

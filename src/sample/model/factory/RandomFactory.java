@@ -1,5 +1,6 @@
 package sample.model.factory;
 
+import org.jetbrains.annotations.NotNull;
 import sample.model.coord.Coordinate;
 import sample.model.figure.*;
 import sample.model.figure.state.RotationMode;
@@ -7,10 +8,36 @@ import sample.model.figure.state.RotationMode;
 import java.util.Random;
 
 public class RandomFactory implements FigureFactory {
+
     private static Random rnd = new Random(System.currentTimeMillis());
+
+    private BaseFigure nextFigure;
+
+
+    public RandomFactory() {
+    }
 
     @Override
     public BaseFigure create(Coordinate coordinate,RotationMode rotationMode) {
+        /*BaseFigure result = getNextFigure(coordinate);
+        setNextFigure(coordinate,RotationMode.getRandomRotationMode());*/
+        return createFigure(coordinate,RotationMode.getRandomRotationMode());
+    }
+
+    public void setNextFigure(Coordinate coordinate,RotationMode rotationMode){
+        this.nextFigure = createFigure(coordinate,rotationMode);
+    }
+
+    public BaseFigure getNextFigure(Coordinate coordinate) {
+        if (nextFigure == null) {
+            nextFigure = createFigure(coordinate,RotationMode.getRandomRotationMode());
+        }
+        return nextFigure;
+    }
+
+
+    @NotNull
+    private BaseFigure createFigure(Coordinate coordinate,RotationMode rotationMode) {
         int number = 1 + rnd.nextInt(7 - 1 + 1);
         switch (number) {
             case 1 : {

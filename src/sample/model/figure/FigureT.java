@@ -56,7 +56,17 @@ public class FigureT extends BaseFigure {
 
     @Override
     List<Coordinate> getFigureMatrix() {
+        for (Coordinate coordinate : coordinates) {
+            coordinate.setState(StateConstants.FIGURE_T);
+        }
         return coordinates;
+    }
+
+
+    @Override
+    public String toString() {
+        return super.toString() + " T";
+
     }
 
     @Override

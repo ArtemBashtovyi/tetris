@@ -15,6 +15,8 @@ public interface UiConstants {
     Color FIGURE_J_COLOR  =  new Color(0.41, 0.9, 0.33, 0.8);
     Color FIGURE_L_COLOR  =  new Color(0.94, 0.11, 0.33, 0.8);
 
+
+
     int CELL_WIDTH = 30;
     int CELL_HEIGHT = 30;
 

@@ -3,6 +3,7 @@ package sample.model.figure;
 import javafx.scene.Parent;
 import sample.model.coord.Coordinate;
 import sample.model.figure.state.RotationMode;
+import sample.model.figure.state.StateConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,16 @@ public class FigureS extends BaseFigure{
 
     @Override
     List<Coordinate> getFigureMatrix() {
+        for (Coordinate coordinate : coordinates) {
+            coordinate.setState(StateConstants.FIGURE_S);
+        }
         return coordinates;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " S";
+
     }
 
     @Override

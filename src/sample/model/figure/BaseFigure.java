@@ -72,4 +72,10 @@ public abstract class BaseFigure {
     abstract void setFigureMatrix(Coordinate topLeftCoordinate,RotationMode rotationMode);
     abstract List<Coordinate> getFigureMatrix();
     public abstract int getState();
+
+
+    @Override
+    public String toString() {
+        return "Figure{}" ;
+    }
 }

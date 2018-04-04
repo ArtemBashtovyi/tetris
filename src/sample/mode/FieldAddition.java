@@ -1,8 +1,7 @@
 package sample.mode;
 
-import sample.model.cell.Cell;
-import sample.save.SaveManager;
+import sample.model.cell.VolatileCell;
 
 public interface FieldAddition {
-    Cell[][] getBaseField();
+    VolatileCell[][] getBaseField();
 }

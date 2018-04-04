@@ -7,9 +7,10 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 import sample.App;
+import sample.model.cell.CellFactory;
+import sample.model.cell.VolatileCell;
 import sample.presenter.FieldPresenter;
 import sample.presenter.IFieldPresenter;
-import sample.model.cell.Cell;
 import sample.model.coord.Coordinate;
 import sample.model.figure.BaseFigure;
 
@@ -23,7 +24,8 @@ public class FieldView implements App.OnKeyListener,IFieldView {
     private int xCells = (int) (FIELD_HEIGHT / CELL_WIDTH - 3);
     private int yCells = (int) (FIELD_WIDTH  / CELL_WIDTH);
 
-    private Cell baseMatrix[][] = new Cell[xCells][yCells];
+    private VolatileCell baseMatrix[][] = new VolatileCell[xCells][yCells];
+
     private IFieldPresenter fieldManager;
     private Timeline timer;
 
@@ -44,7 +46,7 @@ public class FieldView implements App.OnKeyListener,IFieldView {
 
         for (int i = 0; i < baseMatrix.length;i++) {
             for (int j = 0; j < baseMatrix[i].length;j++) {
-                baseMatrix[i][j] = new Cell(i, j);
+                baseMatrix[i][j] = new VolatileCell(i, j, CellFactory.createDecoratedCell(-1));
                 layout.getChildren().add(baseMatrix[i][j]);
             }
         }
@@ -78,7 +80,7 @@ public class FieldView implements App.OnKeyListener,IFieldView {
         cleanUpField(fieldManager.getSavedCoordinates());
 
         for(Coordinate cell : figureCells) {
-            baseMatrix[cell.x][cell.y].setColor(figure.getState());
+            baseMatrix[cell.x][cell.y].updateColor(CellFactory.createDecoratedCell(figure.getState()));
         }
 
         updateField();
@@ -91,11 +93,13 @@ public class FieldView implements App.OnKeyListener,IFieldView {
 
         for (int i = 0; i < baseMatrix.length;i++) {
             for (int j = 0; j < baseMatrix[i].length;j++) {
+                int position = coordinates.indexOf(new Coordinate(i,j));
 
-                // check if Cell exist in saved Cells
-                if (coordinates.contains(new Coordinate(i,j))) {
-                    baseMatrix[i][j].setColor(0);
-                } else baseMatrix[i][j].setColor(-1);
+                // if VolatileCell exist in saveManager than - set color of current cell
+                if ( position != -1) {
+                    baseMatrix[i][j].updateColor(CellFactory.createDecoratedCell(coordinates.get(position).getState()));
+                } else
+                    baseMatrix[i][j].updateColor(CellFactory.createDecoratedCell(-1));
             }
         }
     }
@@ -107,8 +111,8 @@ public class FieldView implements App.OnKeyListener,IFieldView {
 
     @Override
     public void updateField() {
-        for (Cell[] aBaseMatrix : baseMatrix) {
-            for (Cell anABaseMatrix : aBaseMatrix) {
+        for (VolatileCell[] aBaseMatrix : baseMatrix) {
+            for (VolatileCell anABaseMatrix : aBaseMatrix) {
                 anABaseMatrix.update();
             }
         }
