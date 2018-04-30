@@ -4,6 +4,7 @@ import javafx.scene.paint.Color;
 
 public interface UiConstants {
 
+
     Color EMPTY_COLOR =  new Color(0.1294, 0.7216, 0.7333, 0.8);
     Color FULL_COLOR =  new Color(0.5, 0.1, 0.41, 0.8);
 
@@ -20,11 +21,15 @@ public interface UiConstants {
     int CELL_WIDTH = 30;
     int CELL_HEIGHT = 30;
 
-    int MAIN_SCREEN_WIDTH = 700;
+    int MAIN_SCREEN_WIDTH = 900;
     int MAIN_SCREEN_HEIGHT = 800;
 
-    int FIELD_WIDTH = MAIN_SCREEN_WIDTH-300;
+    int FIELD_WIDTH = MAIN_SCREEN_WIDTH-500;
     int FIELD_HEIGHT = MAIN_SCREEN_HEIGHT;
 
+    interface MenuField {
+        int FIELD_WIDTH  = 900;
+        int FIELD_HEIGHT = 800;
+    }
 }
 

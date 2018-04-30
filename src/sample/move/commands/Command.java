@@ -1,19 +1,18 @@
 package sample.move.commands;
 
 import sample.model.coord.Coordinate;
-import sample.save.SaveManager;
+import sample.save.FieldSaver;
 
 import java.util.*;
 import java.util.function.Function;
-import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
 
 public abstract class Command {
 
-    protected SaveManager saveManager;
+    protected FieldSaver fieldSaver;
 
-    public Command(SaveManager saveManager) {
-        this.saveManager = saveManager;
+    public Command(FieldSaver fieldSaver) {
+        this.fieldSaver = fieldSaver;
     }
 
     public boolean isCanDoAction(List<Coordinate> coordinates) {

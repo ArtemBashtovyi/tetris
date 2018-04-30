@@ -9,6 +9,8 @@ import org.jetbrains.annotations.NotNull;
 import sample.App;
 import sample.model.cell.CellFactory;
 import sample.model.cell.VolatileCell;
+import sample.network.Observable;
+import sample.network.Observer;
 import sample.presenter.FieldPresenter;
 import sample.presenter.IFieldPresenter;
 import sample.model.coord.Coordinate;
@@ -18,7 +20,9 @@ import java.util.List;
 
 import static sample.ui.UiConstants.*;
 
-public class FieldView implements App.OnKeyListener,IFieldView {
+public class FieldView implements App.OnKeyListener,IFieldView,Observer {
+
+    private static final int ENEMY_MATRIX_START_POSITION = 4;
 
     // count cells
     private int xCells = (int) (FIELD_HEIGHT / CELL_WIDTH - 3);
@@ -51,6 +55,7 @@ public class FieldView implements App.OnKeyListener,IFieldView {
             }
         }
 
+        drawMatrix();
         updateFigure(fieldManager.createFigure(new Coordinate(1,middlePosition)));
         startTimer();
 
@@ -95,7 +100,7 @@ public class FieldView implements App.OnKeyListener,IFieldView {
             for (int j = 0; j < baseMatrix[i].length;j++) {
                 int position = coordinates.indexOf(new Coordinate(i,j));
 
-                // if VolatileCell exist in saveManager than - set color of current cell
+                // if VolatileCell exist in fieldSaver than - set color of current cell
                 if ( position != -1) {
                     baseMatrix[i][j].updateColor(CellFactory.createDecoratedCell(coordinates.get(position).getState()));
                 } else
@@ -139,9 +144,29 @@ public class FieldView implements App.OnKeyListener,IFieldView {
         fieldManager.moveFigureDown();
     }
 
+    private void drawMatrix() {
+        VolatileCell[][] enemyMatrix = new VolatileCell[xCells][yCells];
+
+        for (int i = 0; i < enemyMatrix.length;i++) {
+            for (int j = 0; j < enemyMatrix[i].length;j++) {
+                // set offset between enemy and current matrix
+                enemyMatrix[i][j] = new VolatileCell(i, j + (yCells + ENEMY_MATRIX_START_POSITION)
+                        , CellFactory.createDecoratedCell(-1));
+                layout.getChildren().add(enemyMatrix[i][j]);
+            }
+        }
+    }
+
     @Override
     public void showGameOverDialog() {
         System.out.println("Game over");
         timer.stop();
+    }
+
+
+    // TODO : update Enemy field
+    @Override
+    public void update(List<Coordinate> allCoordinates) {
+        // doing some operations of updating view
     }
 }

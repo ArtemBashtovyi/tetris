@@ -1,18 +1,17 @@
 package sample.move.commands;
 
 import sample.model.coord.Coordinate;
-import sample.save.SaveManager;
+import sample.save.FieldSaver;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
-import java.util.function.ToIntFunction;
 
 public class RightCommand extends Command {
     private int fieldWidth;
 
-    public RightCommand(SaveManager saveManager,int fieldWidth) {
-        super(saveManager);
+    public RightCommand(FieldSaver fieldSaver, int fieldWidth) {
+        super(fieldSaver);
         this.fieldWidth = fieldWidth;
 
     }
@@ -33,7 +32,7 @@ public class RightCommand extends Command {
                 return false;
             }
 
-            if (saveManager.isExist(x,y+1)) {
+            if (fieldSaver.isExist(x,y+1)) {
                 return false;
             }
         }

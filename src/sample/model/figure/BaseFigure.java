@@ -5,9 +5,10 @@ import sample.model.coord.Coordinate;
 import sample.model.coord.CoordinateComparator;
 import sample.model.figure.state.RotationMode;
 
+import java.io.Serializable;
 import java.util.List;
 
-public abstract class BaseFigure {
+public abstract class BaseFigure implements Serializable {
 
     private static final CoordinateComparator COMPARATOR = new CoordinateComparator();
 

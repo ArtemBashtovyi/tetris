@@ -1,17 +1,16 @@
 package sample.move.commands;
 
 import sample.model.coord.Coordinate;
-import sample.save.SaveManager;
+import sample.save.FieldSaver;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
-import java.util.function.ToIntFunction;
 
 public class LeftCommand extends Command {
 
-    public LeftCommand(SaveManager saveManager) {
-        super(saveManager);
+    public LeftCommand(FieldSaver fieldSaver) {
+        super(fieldSaver);
     }
 
     @Override
@@ -30,7 +29,7 @@ public class LeftCommand extends Command {
                 return false;
             }
 
-            if (saveManager.isExist(x,y-1)) {
+            if (fieldSaver.isExist(x,y-1)) {
                 //System.out.println("filled block" + coordinate);
                 return false;
             }

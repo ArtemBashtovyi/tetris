@@ -1,7 +1,7 @@
 package sample.move.commands;
 
 import sample.model.coord.Coordinate;
-import sample.save.SaveManager;
+import sample.save.FieldSaver;
 
 import java.util.Comparator;
 import java.util.List;
@@ -16,8 +16,8 @@ public class DownCommand extends Command {
     private int fieldHeight;
     private GameOverHandler gameOverHandler;
 
-    public DownCommand(SaveManager saveManager,int fieldHeight,GameOverHandler gameOverHandler) {
-        super(saveManager);
+    public DownCommand(FieldSaver fieldSaver, int fieldHeight, GameOverHandler gameOverHandler) {
+        super(fieldSaver);
         this.fieldHeight = fieldHeight;
         this.gameOverHandler = gameOverHandler;
     }
@@ -43,7 +43,7 @@ public class DownCommand extends Command {
                 return false;
             }
 
-            if (saveManager.isExist(x+1,y)) {
+            if (fieldSaver.isExist(x+1,y)) {
                 //System.out.println("filled block" + coordinate);
                 return false;
             }

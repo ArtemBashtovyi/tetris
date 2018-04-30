@@ -5,11 +5,8 @@ import sample.model.factory.FigureFactory;
 import sample.model.factory.RandomFactory;
 import sample.model.factory.RotationFactory;
 import sample.move.MoveManager;
-import sample.move.commands.Command;
 import sample.move.commands.DownCommand;
-import sample.move.commands.LeftCommand;
-import sample.move.commands.RightCommand;
-import sample.save.SaveManager;
+import sample.save.FieldSaver;
 import sample.model.figure.*;
 import sample.model.figure.state.RotationMode;
 import sample.ui.field.IFieldView;
@@ -23,7 +20,7 @@ public class FieldPresenter implements IFieldPresenter,DownCommand.GameOverHandl
     private BaseFigure figure;
 
     // saver dropped  blocks
-    private SaveManager saveManager;
+    private FieldSaver fieldSaver;
     // actual figure coordinates
     private List<Coordinate> coordinates;
     // current rotation mode
@@ -40,12 +37,13 @@ public class FieldPresenter implements IFieldPresenter,DownCommand.GameOverHandl
 
     public FieldPresenter(IFieldView controller, int fieldHeight, int fieldWidth) {
         this.controller = controller;
-        this.saveManager = SaveManager.getInstance(fieldWidth);
+        this.fieldSaver = FieldSaver.getInstance(fieldWidth);
         this.fieldHeight = fieldHeight;
         this.fieldWidth = fieldWidth;
         randomFactory = new RandomFactory();
-        moveManager = new MoveManager(fieldHeight,fieldWidth,saveManager,this);
+        moveManager = new MoveManager(fieldHeight,fieldWidth, fieldSaver,this);
     }
+
 
     @Override
     public BaseFigure createFigure(Coordinate coordinate) {
@@ -58,7 +56,7 @@ public class FieldPresenter implements IFieldPresenter,DownCommand.GameOverHandl
         return figure;
     }
 
-
+    // FIXME : to move logic to another module
     @Override
     public void moveFigureDown() {
         if (isCanMoveDown()) {
@@ -70,7 +68,7 @@ public class FieldPresenter implements IFieldPresenter,DownCommand.GameOverHandl
 
             // add current figure
             for (Coordinate coordinate : coordinates) {
-                saveManager.addCell(coordinate);
+                fieldSaver.addCell(coordinate);
                 if (coordinate.x <= 1) {
                     System.out.println("GAME OVER");
                     controller.showGameOverDialog();
@@ -81,8 +79,8 @@ public class FieldPresenter implements IFieldPresenter,DownCommand.GameOverHandl
             // set position which was last
             int lastRemovePosition = 0;
             for (int i = 0; i < fieldHeight;i++) {
-                if (saveManager.isLineFilled(i)) {
-                    saveManager.removeCellsLine(i);
+                if (fieldSaver.isLineFilled(i)) {
+                    fieldSaver.removeCellsLine(i);
                     System.out.println("removedLine" + i);
                     lastRemovePosition = i;
                 }
@@ -95,7 +93,7 @@ public class FieldPresenter implements IFieldPresenter,DownCommand.GameOverHandl
                 int shiftCapacity = 0;
 
                 for (int i = lastRemovePosition; i > 0; i--) {
-                    if (!saveManager.isLineEmpty(i)) {
+                    if (!fieldSaver.isLineEmpty(i)) {
                         isNeedToShiftLinesDown = true;
                         break;
                     }
@@ -162,6 +160,7 @@ public class FieldPresenter implements IFieldPresenter,DownCommand.GameOverHandl
     }
 
 
+    // FIXME : make Command Pattern
     private boolean isCanRotate() {
         BaseFigure tempFigure;
 
@@ -173,7 +172,7 @@ public class FieldPresenter implements IFieldPresenter,DownCommand.GameOverHandl
         List<Coordinate> newCoordinates = tempFigure.getCoordinates();
         System.out.println("TempFigure :: topCoordinate " + tempFigure.getTopLeftCoordinate());
 
-        List<Coordinate> savedCoordinates = saveManager.getCoordinates();
+        List<Coordinate> savedCoordinates = fieldSaver.getCoordinates();
         // match future figure coordinates with used coordinates
         for (Coordinate coordinate : newCoordinates) {
             if (coordinate.y <= 0  || coordinate.y >= fieldWidth) {
@@ -191,7 +190,7 @@ public class FieldPresenter implements IFieldPresenter,DownCommand.GameOverHandl
     private void shiftLinesDown(int startLine,int capacity) {
 
         // filter all positions cell above  empty line and move they  down
-        List<Coordinate> coordinates = saveManager.getCoordinates()
+        List<Coordinate> coordinates = fieldSaver.getCoordinates()
                 .stream()
                 .peek(coordinate -> {
                     if (coordinate.x < startLine)
@@ -199,11 +198,11 @@ public class FieldPresenter implements IFieldPresenter,DownCommand.GameOverHandl
                 })
                 .collect(Collectors.toList());
 
-        saveManager.setCoordinates(coordinates);
+        fieldSaver.setCoordinates(coordinates);
     }
 
     public List<Coordinate> getSavedCoordinates() {
-        return saveManager.getCoordinates();
+        return fieldSaver.getCoordinates();
     }
 
 

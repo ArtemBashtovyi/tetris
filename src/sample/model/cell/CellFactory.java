@@ -18,9 +18,7 @@ public class CellFactory {
         if (decoratedCell == null) {
             decoratedCell = new DecoratedCell(getColorById(state));
             decoratedCells.put(state,decoratedCell);
-            for (Integer integer : decoratedCells.keySet()) {
-                System.out.println(decoratedCells.get(integer).getColor() +" item");
-            }
+
         }
         return decoratedCell;
     }
