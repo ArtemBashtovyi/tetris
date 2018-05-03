@@ -6,7 +6,7 @@ import java.util.*
 class StateSaver {
 
     private lateinit var originator : Originator
-    private var state : Stack<Memento> = Stack()
+    private var state : Stack<SavedFigure> = Stack()
 
     fun save() {
         var fIS : OutputStream? = null
@@ -18,7 +18,7 @@ class StateSaver {
 
 
         } catch (e : IOException) {
-
+            e.printStackTrace()
         } finally {
             fIS?.close()
             oFI?.close()

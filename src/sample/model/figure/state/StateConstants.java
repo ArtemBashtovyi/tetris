@@ -8,4 +8,5 @@ public interface StateConstants {
     int FIGURE_S = 5;
     int FIGURE_J = 6;
     int FIGURE_L = 7;
+    int EMPTY_COLOR = -1;
 }

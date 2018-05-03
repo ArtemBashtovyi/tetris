@@ -6,21 +6,22 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
-import sample.App;
-import sample.model.cell.CellFactory;
+import sample.model.figure.state.StateConstants;
 import sample.model.cell.VolatileCell;
-import sample.network.Observable;
-import sample.network.Observer;
+import sample.network.socket.SocketManager;
+import sample.network.socket.callbacks.IOCallbacks;
 import sample.presenter.FieldPresenter;
 import sample.presenter.IFieldPresenter;
 import sample.model.coord.Coordinate;
 import sample.model.figure.BaseFigure;
+import sample.ui.OnKeyListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static sample.ui.UiConstants.*;
 
-public class FieldView implements App.OnKeyListener,IFieldView,Observer {
+public class FieldView implements OnKeyListener,IFieldView {
 
     private static final int ENEMY_MATRIX_START_POSITION = 4;
 
@@ -29,8 +30,9 @@ public class FieldView implements App.OnKeyListener,IFieldView,Observer {
     private int yCells = (int) (FIELD_WIDTH  / CELL_WIDTH);
 
     private VolatileCell baseMatrix[][] = new VolatileCell[xCells][yCells];
+    private VolatileCell enemyMatrix[][] = new VolatileCell[xCells][yCells];
 
-    private IFieldPresenter fieldManager;
+    private IFieldPresenter presenter;
     private Timeline timer;
 
     @FXML
@@ -38,32 +40,40 @@ public class FieldView implements App.OnKeyListener,IFieldView,Observer {
 
     private final int middlePosition = yCells/2;
 
-    @FXML
-    void initialize() {
-
-        fieldManager = new FieldPresenter(this,baseMatrix.length,baseMatrix[0].length);
-
+    private void initGui() {
         layout.setMaxHeight(MAIN_SCREEN_HEIGHT);
         layout.setMaxWidth(MAIN_SCREEN_WIDTH);
 
-        System.out.println("Matrix[" + (xCells-1) + "," + (yCells-1) +"]");
-
         for (int i = 0; i < baseMatrix.length;i++) {
             for (int j = 0; j < baseMatrix[i].length;j++) {
-                baseMatrix[i][j] = new VolatileCell(i, j, CellFactory.createDecoratedCell(-1));
+                baseMatrix[i][j] = new VolatileCell(i, j, StateConstants.EMPTY_COLOR);
                 layout.getChildren().add(baseMatrix[i][j]);
             }
         }
 
-        drawMatrix();
-        updateFigure(fieldManager.createFigure(new Coordinate(1,middlePosition)));
-        startTimer();
+        //draw enemy field
+        for (int i = 0; i < enemyMatrix.length;i++) {
+            for (int j = 0; j < enemyMatrix[i].length;j++) {
+                // set offset between enemy and current matrix
+                enemyMatrix[i][j] = new VolatileCell(i, j + (yCells + ENEMY_MATRIX_START_POSITION)
+                        ,StateConstants.EMPTY_COLOR);
+                layout.getChildren().add(enemyMatrix[i][j]);
+            }
+        }
 
+        updateFigure(presenter.createFigure(new Coordinate(1,middlePosition)));
+        startTimer();
+    }
+
+    // init GUI only after socket connection will be created
+    public void init(SocketManager socketManager) {
+        presenter = new FieldPresenter(this,socketManager,baseMatrix.length,baseMatrix[0].length);
+        initGui();
     }
 
     private void startTimer() {
          timer = new Timeline(
-                new KeyFrame(Duration.seconds(0.60),
+                new KeyFrame(Duration.seconds(1.90),
                 event -> onTimerTick()));
 
         timer.setCycleCount(Timeline.INDEFINITE);
@@ -72,26 +82,8 @@ public class FieldView implements App.OnKeyListener,IFieldView,Observer {
 
 
     private void onTimerTick() {
-        fieldManager.moveFigureDown();
+        presenter.moveFigureDown();
     }
-
-
-
-    @Override
-    public void updateFigure(@NotNull BaseFigure figure) {
-
-        List<Coordinate> figureCells = figure.getCoordinates();
-
-        cleanUpField(fieldManager.getSavedCoordinates());
-
-        for(Coordinate cell : figureCells) {
-            baseMatrix[cell.x][cell.y].updateColor(CellFactory.createDecoratedCell(figure.getState()));
-        }
-
-        updateField();
-    }
-
-
 
     private void cleanUpField(List<Coordinate> coordinates) {
         // get saved coordinates and set to base matrix color,another Cells have empty color
@@ -102,16 +94,38 @@ public class FieldView implements App.OnKeyListener,IFieldView,Observer {
 
                 // if VolatileCell exist in fieldSaver than - set color of current cell
                 if ( position != -1) {
-                    baseMatrix[i][j].updateColor(CellFactory.createDecoratedCell(coordinates.get(position).getState()));
+                    baseMatrix[i][j].updateColor(coordinates.get(position).getState());
                 } else
-                    baseMatrix[i][j].updateColor(CellFactory.createDecoratedCell(-1));
+                    baseMatrix[i][j].updateColor(StateConstants.EMPTY_COLOR);
             }
         }
     }
 
+    private void cleanUpEnemyField() {
+        for (VolatileCell[] arrayOfCells : enemyMatrix) {
+            for (VolatileCell cell : arrayOfCells) {
+                cell.updateColor(StateConstants.EMPTY_COLOR);
+            }
+        }
+        System.out.println("\n");
+    }
+
+    @Override
+    public void updateFigure(@NotNull BaseFigure figure) {
+        List<Coordinate> figureCells = figure.getCoordinates();
+        cleanUpField(presenter.getSavedCoordinates());
+
+        for(Coordinate cell : figureCells) {
+            baseMatrix[cell.x][cell.y].updateColor(figure.getState());
+        }
+
+        updateField();
+        presenter.writeData(baseMatrix);
+    }
+
     @Override
     public void setNewFigure() {
-        fieldManager.createFigure(new Coordinate(1,middlePosition));
+        presenter.createFigure(new Coordinate(1,middlePosition));
     }
 
     @Override
@@ -123,50 +137,44 @@ public class FieldView implements App.OnKeyListener,IFieldView,Observer {
         }
     }
 
+    @Override
+    public void updateEnemyField(@NotNull ArrayList<VolatileCell> coordinates) {
+        cleanUpEnemyField();
+        for (VolatileCell cell : coordinates) {
+            enemyMatrix[cell.getX()][cell.getY()].updateColor(cell.getColor());
+            enemyMatrix[cell.getX()][cell.getY()].update();
+        }
+    }
+
+    @Override
+    public VolatileCell[][] getCurrentMatrix() {
+        return baseMatrix;
+    }
+
     // Callbacks
     @Override
     public void onUp() {
-        fieldManager.rotate();
+        presenter.rotate();
     }
 
     @Override
     public void onLeft() {
-        fieldManager.moveFigureLeft();
+        presenter.moveFigureLeft();
     }
 
     @Override
     public void onRight() {
-        fieldManager.moveFigureRight();
+        presenter.moveFigureRight();
     }
 
     @Override
     public void onDown() {
-        fieldManager.moveFigureDown();
-    }
-
-    private void drawMatrix() {
-        VolatileCell[][] enemyMatrix = new VolatileCell[xCells][yCells];
-
-        for (int i = 0; i < enemyMatrix.length;i++) {
-            for (int j = 0; j < enemyMatrix[i].length;j++) {
-                // set offset between enemy and current matrix
-                enemyMatrix[i][j] = new VolatileCell(i, j + (yCells + ENEMY_MATRIX_START_POSITION)
-                        , CellFactory.createDecoratedCell(-1));
-                layout.getChildren().add(enemyMatrix[i][j]);
-            }
-        }
+        presenter.moveFigureDown();
     }
 
     @Override
     public void showGameOverDialog() {
         System.out.println("Game over");
         timer.stop();
-    }
-
-
-    // TODO : update Enemy field
-    @Override
-    public void update(List<Coordinate> allCoordinates) {
-        // doing some operations of updating view
     }
 }

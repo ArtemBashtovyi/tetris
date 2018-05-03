@@ -1,4 +1,4 @@
-package sample.model.cell;
+package sample.ui;
 
 import javafx.scene.paint.Color;
 import org.jetbrains.annotations.Contract;
@@ -7,24 +7,12 @@ import java.util.HashMap;
 
 import static sample.model.figure.state.StateConstants.*;
 import static sample.ui.UiConstants.*;
+import static sample.ui.UiConstants.EMPTY_COLOR;
 
-public class CellFactory {
-
-    private static HashMap<Integer,DecoratedCell> decoratedCells = new HashMap<>();
-
-    public static DecoratedCell createDecoratedCell(int state) {
-        DecoratedCell decoratedCell = decoratedCells.get(state);
-
-        if (decoratedCell == null) {
-            decoratedCell = new DecoratedCell(getColorById(state));
-            decoratedCells.put(state,decoratedCell);
-
-        }
-        return decoratedCell;
-    }
+public class ColorFactory {
 
     @Contract(pure = true)
-    private static Color getColorById(int colorId) {
+    public static Color getColorById(int colorId) {
         Color currentColor;
         switch (colorId) {
             case -1 : currentColor = EMPTY_COLOR;break;

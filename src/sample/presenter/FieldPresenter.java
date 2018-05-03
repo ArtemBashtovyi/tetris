@@ -1,23 +1,34 @@
 package sample.presenter;
 
+import org.jetbrains.annotations.NotNull;
+import sample.model.cell.VolatileCell;
 import sample.model.coord.Coordinate;
 import sample.model.factory.FigureFactory;
 import sample.model.factory.RandomFactory;
 import sample.model.factory.RotationFactory;
+import sample.model.figure.state.StateConstants;
 import sample.move.MoveManager;
+import sample.move.commands.Command;
 import sample.move.commands.DownCommand;
+import sample.network.socket.SocketManager;
+import sample.network.socket.callbacks.IOCallbacks;
 import sample.save.FieldSaver;
 import sample.model.figure.*;
 import sample.model.figure.state.RotationMode;
+import sample.ui.UiConstants;
 import sample.ui.field.IFieldView;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class FieldPresenter implements IFieldPresenter,DownCommand.GameOverHandler {
+public class FieldPresenter implements IFieldPresenter,IOCallbacks,DownCommand.GameOverHandler {
 
-    private IFieldView controller;
+    private IFieldView view;
     private BaseFigure figure;
+    // App Field size
+    private int fieldHeight;
+    private int fieldWidth;
+
 
     // saver dropped  blocks
     private FieldSaver fieldSaver;
@@ -28,18 +39,20 @@ public class FieldPresenter implements IFieldPresenter,DownCommand.GameOverHandl
 
     private RandomFactory randomFactory;
     private FigureFactory rotationFactory;
-
-    // App Field size
-    private int fieldHeight;
-    private int fieldWidth;
-
     private MoveManager moveManager;
+    private SocketManager socketManager;
+    private Command command;
 
-    public FieldPresenter(IFieldView controller, int fieldHeight, int fieldWidth) {
-        this.controller = controller;
+
+    public FieldPresenter(IFieldView view, @NotNull SocketManager socketManager, int fieldHeight, int fieldWidth) {
+        this.view = view;
         this.fieldSaver = FieldSaver.getInstance(fieldWidth);
         this.fieldHeight = fieldHeight;
         this.fieldWidth = fieldWidth;
+        this.socketManager = socketManager;
+
+        socketManager.createSocket(this);
+
         randomFactory = new RandomFactory();
         moveManager = new MoveManager(fieldHeight,fieldWidth, fieldSaver,this);
     }
@@ -71,7 +84,7 @@ public class FieldPresenter implements IFieldPresenter,DownCommand.GameOverHandl
                 fieldSaver.addCell(coordinate);
                 if (coordinate.x <= 1) {
                     System.out.println("GAME OVER");
-                    controller.showGameOverDialog();
+                    view.showGameOverDialog();
                     break;
                 }
             }
@@ -108,17 +121,17 @@ public class FieldPresenter implements IFieldPresenter,DownCommand.GameOverHandl
                 // TODO : (not here) impl callbacks when figure can't move down,and finish game
             }
 
-            controller.setNewFigure();
+            view.setNewFigure();
         }
 
-        controller.updateFigure(figure);
+        view.updateFigure(figure);
     }
 
     @Override
     public void moveFigureLeft() {
         if (isCanTurnLeft()) {
             figure.moveLeft();
-            controller.updateFigure(figure);
+            view.updateFigure(figure);
         }
     }
 
@@ -126,7 +139,7 @@ public class FieldPresenter implements IFieldPresenter,DownCommand.GameOverHandl
     public void moveFigureRight() {
         if (isCanTurnRight()) {
             figure.moveRight();
-            controller.updateFigure(figure);
+            view.updateFigure(figure);
         }
     }
 
@@ -136,7 +149,7 @@ public class FieldPresenter implements IFieldPresenter,DownCommand.GameOverHandl
             // change next figure mode
             rotationMode = RotationMode.getNext(rotationMode);
             figure.rotate(rotationMode);
-            controller.updateFigure(figure);
+            view.updateFigure(figure);
             // set figure cell if change matrix (rotate stone)
         }
     }
@@ -203,6 +216,26 @@ public class FieldPresenter implements IFieldPresenter,DownCommand.GameOverHandl
 
     public List<Coordinate> getSavedCoordinates() {
         return fieldSaver.getCoordinates();
+    }
+
+    @Override
+    public void writeData(VolatileCell[][] matrix) {
+        ArrayList<VolatileCell> listOfColoredCells = new ArrayList<>(24);
+
+        for (VolatileCell[] aMatrix : matrix) {
+            for (VolatileCell anAMatrix : aMatrix) {
+                if (anAMatrix.getColor() != StateConstants.EMPTY_COLOR) {
+                    listOfColoredCells.add(anAMatrix);
+                }
+            }
+        }
+        socketManager.writeData(listOfColoredCells);
+    }
+
+
+    @Override
+    public void onDataReceive(@NotNull ArrayList<VolatileCell> matrix) {
+        view.updateEnemyField(matrix);
     }
 
 

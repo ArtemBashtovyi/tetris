@@ -10,6 +10,7 @@ import java.util.List;
 
 public abstract class BaseFigure implements Serializable {
 
+
     private static final CoordinateComparator COMPARATOR = new CoordinateComparator();
 
     private List<Coordinate> coordinates;

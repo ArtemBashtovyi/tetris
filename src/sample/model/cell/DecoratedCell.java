@@ -2,22 +2,22 @@ package sample.model.cell;
 
 import javafx.scene.paint.Color;
 
-public class DecoratedCell  {
+import java.io.Serializable;
 
-    private Color color;
+public class DecoratedCell implements Serializable {
 
-    public DecoratedCell(Color color) {
-        this.color = color;
+    private int colorId;
+
+    public DecoratedCell(int color) {
+        this.colorId = color;
     }
 
-    public Color getColor() {
-        return color;
+    public int getColor() {
+        return colorId;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
+    public void setColor(int color) {
+        this.colorId = color;
     }
-
-
 
 }

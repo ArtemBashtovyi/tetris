@@ -2,9 +2,10 @@ package sample.model.coord;
 
 import javafx.scene.image.Image;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Coordinate {
+public class Coordinate implements Serializable {
 
     public int x;
     public int y;
